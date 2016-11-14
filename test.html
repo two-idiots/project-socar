@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Angular QuickStart</title>
+	<meta charset="UTF-8">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+</head>
+<body>
+    <h1>Wow!!!</h1>
+    <button (click)="showAlert('fantastic baby')">테스트</button>
+    <button (click)="onSave($event)" id="test">추가</button>
+    <button (click)="onDelete($event)">제거</button>
+    <div class="row">
+        <div class="col-xs-12 col-sm-6 col-md-8">.col-xs-12 .col-sm-6 .col-md-8</div>
+        <div class="col-xs-6 col-md-4">.col-xs-6 .col-md-4</div>
+    </div>
+    <div class="row">
+        <div class="col-xs-6 col-sm-4">.col-xs-6 .col-sm-4</div>
+        <div class="col-xs-6 col-sm-4">.col-xs-6 .col-sm-4</div>
+        <!-- Optional: clear the XS cols if their content doesn't match in height -->
+        <div class="clearfix visible-xs-block"></div>
+        <div class="col-xs-6 col-sm-4">.col-xs-6 .col-sm-4</div>
+    </div>
+    <li *ngFor='let value of values'>
+        {{value}}
+    </li>
+    <li *ngFor='let item of items' (mouseover)='over(item.id)' (mouseleave)='leave(item.id)' (mousemove)='move(item.id)' (click)='click(item.id)'>
+        {{item.name}} 
+        <!-- <input (keydown)='editItem($event, item.id)' maxlength="10"> -->
+        <input type="text" #itemBox (keydown.enter)='editItem(item.id, itemBox.value)' maxlength="10">
+        <input type="checkbox" #checkbox (change)='check=checkbox.checked' (click)='hideRadio.checked=true'>
+        <!-- <input type="radio" *ngIf='checkbox.checked'> -->
+
+<!--         <form #f="ngForm">
+            <input type="radio" name="food" [(ngModel)]="food" value="chicken">
+            <input type="radio" name="food" [(ngModel)]="food" value="fish">
+        </form> -->
+        <div [hidden]="!checkbox.checked">
+            <form>
+                <input type="radio" name="payment" #showRadio>보이기
+                <input type="radio" name="payment" #hideRadio checked>숨기기
+            </form>
+            <div [hidden]='!showRadio.checked' style="color:#0000FF">
+                <h3>This is a heading</h3>
+                <p>This is a paragraph.</p>
+            </div>
+        </div>
+        
+    </li>
+</body>
+</html>
