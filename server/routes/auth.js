@@ -5,5 +5,12 @@ module.exports = function(app) {
     res.render('auth/login');
   });
 
+  route.post('/login', function(req, res) {
+    var uname = req.body.username;
+    var password = req.body.password;
+
+    res.send(uname + ', ' + password);
+  });
+
   return route;
 }

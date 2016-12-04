@@ -1,6 +1,8 @@
 var app = require('./config/express')();
+var home = require('./routes/home')(app);
 var auth = require('./routes/auth')(app);
 
+app.use('/', home);
 app.use('/auth', auth);
 
 app.get('/', function(req, res) {
