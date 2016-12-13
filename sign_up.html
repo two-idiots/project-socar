@@ -1,0 +1,232 @@
+<!DOCTYPE HTML>
+<html ng-app="singup">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0" />
+  <link rel="stylesheet" type="text/css" href='template/asset/css/socar_new.css'/>
+  <script type="text/javascript" src='https://dwrr4uupj8j1p.cloudfront.net/template/asset/js/minified/jquery-1.8.3.min.js'></script>
+  <script type="text/javascript" src='https://dwrr4uupj8j1p.cloudfront.net/template/asset/js/minified/jquery.cookie.min.js?v=013'></script>
+  <script type="text/javascript" src='https://dwrr4uupj8j1p.cloudfront.net/template/asset/js/minified/jquery.dotdotdot-1.5.9.min.js'></script>
+  <script type="text/javascript" src='https://dwrr4uupj8j1p.cloudfront.net/template/asset/js/minified/jquery-easing.js'></script>
+  <script type="text/javascript" src='https://dwrr4uupj8j1p.cloudfront.net/template/asset/js/common.js?v=20161208'></script>
+  <script type="text/javascript" src='https://dwrr4uupj8j1p.cloudfront.net/template/asset/js/minified/json2.min.js?v=20140204'></script>
+  <script type="text/javascript" src='https://dwrr4uupj8j1p.cloudfront.net/template/asset/js/minified/fastclick.min.js?v=20150105'></script>
+
+  <script type="text/javascript" src='https://dwrr4uupj8j1p.cloudfront.net/template/asset/js/ssun.js?v=20151220'></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+  <script>
+      /**
+      * app Module
+      *
+      * Description
+      */
+      angular.module('singup', [])
+      .controller('mainController', ['$scope', '$window', function($scope, $window){
+        // $window.onbeforeunload = function(e){
+        //   return "변경된 사항이 있습니다. 페이지에서 나가시겠습니까?";
+        // }
+
+        $scope.regExp = {
+          name : /[^가-힣]/,
+          email : /^([\w!.%+\-])+@([\w\-])+(?:\.[\w\-]+)+$/,
+          mobile : /^01([0|1|6|7|8|9]?)?([0-9]{3,4})?([0-9]{4})$/,
+          password : /[a-zA-Z0-9]/
+        }
+
+        $scope.join = function(){
+          var ret = angular.element($('#is_agree')).hasClass('on');
+
+          var name = angular.element($('#name')[0]).val();
+          var email = angular.element($('#email')[0]).val();
+          var mobile = angular.element($('#mobile')[0]).val();
+          var password = angular.element($('#upw')[0]).val();
+          var repassword = angular.element($('#upw2')[0]).val();
+
+          var pattern = new RegExp($scope.regExp.name);
+
+          if(!ret){
+            alert('약관에 동의해야 회원가입이 가능합니다.');
+            return false;
+          }
+
+          if(name == '' || pattern.test(name)){
+            alert('이름을 확인해주세요.');
+            return false;
+          }
+
+          pattern = new RegExp($scope.regExp.email);
+          
+          if(!pattern.test(email)){
+            alert('이메일 형식이 잘못되었습니다. 다시 입력해주세요.');
+            $scope.email = '';
+            return false;
+          }
+
+          pattern = new RegExp($scope.regExp.mobile);
+
+          if (mobile === '') {
+            alert('휴대폰 번호를 입력해주세요.');
+            return false;
+          }
+
+          if (!pattern.test(mobile)) {
+            alert('잘못된 휴대폰 번호입니다. 하이픈(-)을 제외한 숫자만 입력해주세요.');
+            return false;
+          }
+
+          pattern = new RegExp($scope.regExp.password);
+
+          if(password.length < 6){
+              alert('비밀번호는 6자리 이상으로 입력해 주세요.');
+              return false;
+          }else if(!pattern.test(password)){
+              alert('비밀번호는 영문과 숫자가 모두 포함되어야 합니다.')
+              return false;
+          }
+
+          if(password == '' || repassword == ''){
+            alert('비밀번호를 입력해 주세요.');
+            return false;
+          }else if(password != repassword){
+            alert('패스워드가 잘못되었습니다. 다시 입력해주세요');
+            return false;
+          }
+          
+          $window.location = 'http://www.naver.com';
+        }
+      }])
+    </script>
+  </head>
+  <body id="membership" class="check" ng-controller="mainController">
+<style>
+  /* header top fixed */
+  /* 2015.11.05 */
+  .header-container {
+    width: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 44px;
+    z-index: 99999;
+    position: fixed;
+    background:#00d2ff;
+    box-shadow:none;
+
+  }
+  .header-container h1{text-align:center;}
+  .header-container h1 span{display:block;width:100%;height:44px;font-size:19px;line-height:44px;color:#fff;} /* color:#fff;*/
+  .header-container .tip{position:absolute;top:7px;right:8px;display:block;}
+  .header-container .tab{margin:0 auto;width:141px;height:30px;border:1px solid #0e5d84;overflow:hidden;clear:both;box-shadow:0 1px 1px rgba(255,255,255,.35);}
+  .header-container .tab li{float:left;width:70px;height:30px;color:#fff;border-left:1px solid #0e5d84;box-shadow:inset 0 1px 1px rgba(255,255,255,.35);}
+  .header-container .tab li:first-child{border-left:none;}
+  .header-container .tab li a{display:block;height:30px;line-height:30px;font-weight:bold;text-align:center;text-shadow:0 -1px 0 rgba(0,0,0,.5);}
+  .header-container .tab li.on{box-shadow:none;background:url('/template/asset/images/tab_bg.png') repeat-x 0 0;background-size:auto 30px;}
+  .header-container .prev{position:absolute;top:0;left:0;}
+  .header-container .prev a{display:block;width:46px;height:44px;text-indent:-9999em;overflow:hidden;background:url('/template/asset/images/app_main/ico_new150426_img4.png'); background-size:auto 44px;}
+  .header-container .close{position:absolute;top:0;right:0;}
+  .header-container .close a{display:block;width:46px;height:44px;text-indent:-9999em;overflow:hidden;background:url('/template/asset/images/app_main/ico_new150426_img2.png');background-size:auto 44px;}
+  .header-container .btn{position:absolute;top:6px;width:42px;text-align:center;color:#fff;text-shadow:0 -1px 0 rgba(0,0,0,.5);border:1px solid #0e5d84;box-shadow:inset 0 1px 1px rgba(255,255,255,.35), 0 1px 1px rgba(255,255,255,.2);}
+  .header-container .btn a{display:block;height:30px;font-size:13px;line-height:30px;}
+  .header-container .btn.unable{opacity:.5;}
+  .header-container .rightB{right:6px;}
+  .header-container .leftB{left:6px;}
+  .header-container span.cs_icon {display:block;position:absolute;top:-5px;lefT:-10px;width:18px;height:18px;background-color:#ee5533;font-weight:bold;font-size:12px;line-height:18px;text-align:center;color:#fff;}
+  .header-container .app_menu,
+  .header-container .right {position:absolute;top:0;right:0;}
+  .header-container .alarm,
+  .header-container .left {position:absolute;top:0;left:0;}
+  .header-container .txt_right {position:absolute;top:0;right:0;padding:10px 15px;font-weight:normal;font-size:18px;line-height:24px;color:#fff;}
+  .header-container .txt_left {position:absolute;top:0;left:0;padding:10px 15px;font-weight:normal;font-size:18px;line-height:24px;color:#fff;}
+  .header-container .tab {box-shadow:none;border:1px solid #1192c8;}
+  .header-container .tab li {border-color:#1192c8}
+  .header-container .tab li a {background:#00d2ff;color:#1192c8;border-color:#1192c8;text-shadow:none}
+  .header-container .tab li.on,
+  .header-container .tab li.on a {background:#1192c8;color:#fff;text-shadow:none} /* color:#fff; */
+
+
+  .header-container .write {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+  .header-container .write a {
+    display: block;
+    width: 46px;
+    height: 44px;
+    text-indent: -9999em;
+    overflow: hidden;
+    background: url('/template/asset/images/app_main/ico_new150426_img5.png');
+    background-size: auto 44px;
+  }
+</style>
+<!-- header -->
+<div class="header-container">
+  <h1><span>회원가입</span></h1>  
+  <p class="prev"><a href="javascript:history.back();">이전</a></p>
+  <!-- //header -->
+</div>
+<div id="contents">
+  <div class="join_progress">
+    <div id="progress step1" class="tit_progress step1 on"><span class="num">1</span><span class="txt">아이디 등록</span></div>
+    <div id="progress step2" class="dot_progress step2"></div>
+    <div id="progress step3" class="dot_progress step3"></div>
+    <div id="progress step4" class="dot_progress step4"></div>
+    <div id="progress step5" class="tit_progress step5"><span class="num">2</span><span class="txt">회원정보 입력</span></div>
+    <div id="progress step6" class="dot_progress step6"></div>
+    <div id="progress step7" class="dot_progress step7"></div>
+    <div id="progress step8" class="dot_progress step8"></div>
+    <div id="progress step9" class="tit_progress step9"><span class="num">3</span><span class="txt">면허/결제정보 입력</span></div>
+  </div>
+  <section>
+    <form name="myForm" id="myForm" method="post">
+      <fieldset>
+        <legend>회원가입</legend>
+        <div class="bx">
+          <dl class="typeS">
+            <dt><span>이름</span></dt>
+            <dd>
+              <input id="name" name="name" type="text" ng-model="name" placeholder="반드시 실명을 입력해주세요" ng-pattern="regExp.name" required />
+            </dd>
+          </dl>
+          <dl class="typeS">
+            <dt><span>이메일</span></dt>
+            <dd><input id="email" name="email" ng-model="email" type="email" placeholder="your@email.com" ng-pattern="regExp.email" autocomplete="off" /></dd>
+          </dl>
+          <dl class="typeS">
+            <dt><span>휴대폰</span></dt>
+            <dd class="btn-container">
+              <input id="mobile" ng-model="mobile" name="mobile" type="tel" placeholder="휴대폰 번호" autocomplete="off" ng-pattern="regExp.mobile" required />
+            </dd>
+          </dl>
+          <dl class="typeS" id="upw_dl">
+            <dt><span>비밀번호</span></dt>
+            <dd><input id="upw" name="upw" ng-model="pw" type="password" placeholder="영문, 숫자 포함 6자 이상" autocomplete="off" minlength="6" /></dd>
+          </dl>
+          <dl class="typeS" id="upw2_dl">
+            <dt><span>재입력</span></dt>
+            <dd><input id="upw2" name="upw2" ng-model="repw" type="password" placeholder="영문, 숫자 포함 6자 이상" minlength="6" autocomplete="off" /></dd>
+          </dl>
+        </div>
+        <div class="join_check">
+          <div class="agreeCheck">
+            <span id="is_agree" class=""></span><em><a data-url='/user/terms_view/1?frame=1' class="terms_view" style="text-decoration: underline; cursor: pointer;">약관</a> 및 <a data-url='/user/terms_view/2?frame=1' class="terms_view" style="text-decoration: underline; cursor: pointer;">개인정보수집/이용</a>에 동의합니다.</em>
+          </div>
+        </div>
+        <div style="margin-top: 5px;"><em style="color:#999999; font-size: 12px;">※ 외국인은 이름을 한글로 입력하시고, 1:1 문의로 승인을<br>&nbsp;&nbsp;&nbsp;요청해야 정상적으로 서비스를 이용할 수 있습니다.</em></div>
+        <div class="rbtn">
+          <input id="simple-join" type="submit" value="가입계속하기" ng-click="join()" readonly />
+        </div>
+      </fieldset>
+    </form>
+  </section>
+</div>
+<!-- //가입완료 레이어 -->
+
+<!-- 약관보기 레이어 -->
+<div id="terms_view_layer" style="display:none;">
+  <iframe id="terms_view_iframe" name="terms_view_iframe" style="display:none;"></iframe>
+</div>
+<!-- //약관보기 레이어 -->
+
+</body>
+</html>

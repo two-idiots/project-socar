@@ -2,19 +2,16 @@
 <html lang="en" ng-app="sampleApp">
 	<head>
 		<meta charset="utf-8" />
-
 		<meta name="viewport" content="initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0" />
-		<title>카셰어링 No.1 쏘카</title>
-		<link rel="stylesheet" type="text/css" href='https://dwrr4uupj8j1p.cloudfront.net/template/asset/css/socar_new.css?v=20161206'/>
+		<link rel="stylesheet" type="text/css" href='template/asset/css/socar_new.css'/>
 		<script type="text/javascript" src='https://dwrr4uupj8j1p.cloudfront.net/template/asset/js/minified/jquery-1.8.3.min.js'></script>
-		<script type="text/javascript" src='https://dwrr4uupj8j1p.cloudfront.net/template/asset/js/minified/jquery.cookie.min.js?v=013'></script>
-		<script type="text/javascript" src='https://dwrr4uupj8j1p.cloudfront.net/template/asset/js/minified/jquery.dotdotdot-1.5.9.min.js'></script>
+
 		<script type="text/javascript" src='https://dwrr4uupj8j1p.cloudfront.net/template/asset/js/minified/jquery-easing.js'></script>
 		<script type="text/javascript" src='https://dwrr4uupj8j1p.cloudfront.net/template/asset/js/common.js?v=20161110'></script>
 		<script type="text/javascript" src='https://dwrr4uupj8j1p.cloudfront.net/template/asset/js/minified/json2.min.js?v=20140204'></script>
 		<script type="text/javascript" src='https://dwrr4uupj8j1p.cloudfront.net/template/asset/js/minified/fastclick.min.js?v=20150105'></script>
 		<script type="text/javascript" src='https://dwrr4uupj8j1p.cloudfront.net/template/asset/js/ssun.js?v=20151220'></script>
-		
+
 		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
 		<script>
 			/**
@@ -23,15 +20,27 @@
 			* Description
 			*/
 			angular.module('sampleApp', [])
-			.controller('mainController', ['$scope', '$http', function($scope, $http){
-				$scope.login = function(id, pw){
-					var temp = {username : id, password : pw};
-					console.log(temp);
-					$http.post('http://10.1.70.107:3000/auth/login', temp).success(function(res){
-						console.log(res);
-					}).error(function(res){
-						console.log(res);
-					});
+			.controller('mainController', ['$scope', '$http', '$window', function($scope, $http, $window){
+				$scope.login = function(event, vaild, id, pw){
+					// 이메일 유효성 검사
+					if(vaild){
+						if(event.type==='click' || (event.type==='keydown' && event.keyCode === 13)){
+							// 클릭, 엔터 누를 시 로그인
+							var temp = {username : id, password : pw};
+
+							$http.post('http://10.1.70.107:3000/auth/login', temp).success(function(res){
+								$window.location.href = 'reserve.html';
+							}).error(function(res){
+								alert("이메일과 비밀번호를 확인하세요");
+							});
+						}
+					}else
+						alert("이메일 형식이 잘못되었습니다.");
+				}
+
+				$scope.focus = function(event){
+					if(event.keyCode === 13)
+						angular.element($('#pw')).focus();
 				}
 			}])
 		</script>
@@ -46,375 +55,62 @@
 		<link rel="stylesheet" type="text/css" href="template/asset/css/lightbox.css" />
 		<script type="text/javascript" src="template/asset/js/m.lightbox.js"></script>
 		<script type="text/javascript" src="template/asset/js/minified/jquery.touchslider.min.js_v=095.javascript"></script>
-		<script type="text/javascript">
-			$('title').text('SOCAR');
-			var shinhan_ccd = "1";
-			// history.back = function() {
-			// 	document.location.href = 'http://m.socar.kr/';
-			// };
-			function is_email(a){return /^([\w!.%+\-])+@([\w\-])+(?:\.[\w\-]+)+$/.test(a);}
-			function initReservationCookie(){
-		// 로그인시 모든 쿠키 삭제.
-		set_cookie('way', null);
-		set_cookie('class_id', null);
-		set_cookie('class_name', null);
-		set_cookie('tmp_loc',null);
-		set_cookie('sLoc', null);
-		set_cookie('eLoc',null);
-		set_cookie('oneway_id', null);
-		set_cookie('oneway_name', null);
-		set_cookie('sLoc_id', null);
-	}
-	function LayerPopup(param, target,btnClose) {
-		if( $.trim($("#join_type").val()) == '' ) {
-			layerOpen(param, target);
-			$(btnClose).click(function() {
-				$("#twit_login_layer").css("display", "none");
-			});
-		}
-	}
-	function layerOpen(param, target) {
-		$(param).fadeIn();
-		var temp = $(target);
-		if (temp.outerHeight() < $(document).height())
-			temp.css('margin-top', '-' + temp.outerHeight() / 2 + 'px');
-		else
-			temp.css('top', '0px');
-		if (temp.outerWidth() < $(document).width())
-			temp.css('margin-left', '-' + temp.outerWidth() / 2 + 'px');
-		else
-			temp.css('left', '0px');
-	}
-	$(function(){
-		//아이디, 비밀번호 저장 클릭
-		$('#btn_save_info').bind('click', function () {
-			//세팅 해제
-			if($('#save_info').hasClass('chk')){
-				$.cookie('tmp_save_info', 0, {expires: 365, path: '/'});
-				$.cookie('tmp_auto_login', 0, {expires: 365, path: '/'});
-			}
-			//세팅
-			else{
-				$.cookie('tmp_save_info', 1, {expires: 365, path: '/'});
-				$.cookie('tmp_auto_login', 1, {expires: 365, path: '/'});
-			}
-		});
-		//아이디, 비번 저장이 활성화 되어있을 때 정보 세팅
-		if ($.cookie('tmp_save_info') == 1) {
-			$('#save_info').addClass('chk');
-		} else {
-			$('#save_info').removeClass('chk');
-			setTimeout("$('#email').val('')",200);
-			setTimeout("$('#password').val('')",200);
-		}
-		$("#photo-close, #photo-viewer").bind('click', function() {
-			$("#photo-viewer").css("display","none");
-			return false;
-		});
-		$("#more_sns_login").click(function(){
-			LayerPopup(".sns_join_layer", "#sns_join_layer", "#sns_join_layer_Close");
-			return false;
-		});
-		$('#password').bind('keydown', function (evt) {
-			if (evt.keyCode === 13) login();
-		});
-		$('#email').bind('keydown', function (evt) {
-			if (evt.keyCode === 13) $('#password').focus();
-		});
-		// $('#loginbtn').bind('click', login);
-		// function login() {
-	 //  	// 로그인시 모든 쿠키 삭제.
-		// 	// main에 쏘카존 검색이 추가 됨. 쿠키를 삭제할 경우 쏘카존 검색을 위한 값이 삭제 됨. by tary 2014-04-26
-		// 	// initReservationCookie();
-		// 	var email = $('#email').val();
-		// 	var passwd = $('#password').val();
-		// 	var device_id = $('#device_id').val();
-		// 	var device_model = $('#device_model').val();
-		// 	var os = $('#os').val();
-		// 	var version = $('#version').val();
-		// 	var referer = $('#referer').val();
-		// 	var token = $('#token').val();
-		// 	if(!is_email(email)){
-		// 		alert('이메일 형식이 잘못되었습니다.');
-		// 		return false;
-		// 	}
-		// 	if(passwd == ''){
-		// 		alert('비밀번호를 입력해주세요');
-		// 		return false;
-		// 	}
-		// 	//저장 비활성시 제거
-		// 	if(!$('#save_info').hasClass('chk')){
-		// 		set_cookie('tmp_user_email', null);
-		// 		set_cookie('tmp_user_passwd', null);
-		// 	}
-		// 	//hidden iframe 을 이용한 POST
-		// 	var login_param = {
-		// 		join_type: 'email',
-		// 		email: $.trim(email),
-		// 		password: passwd,
-		// 		device_id: device_id,
-		// 		device_model: device_model,
-		// 		os: os,
-		// 		version: version,
-		// 		referer: referer,
-		// 		token: token,
-		// 		save: $('#save_info').hasClass('chk')
-		// 	};
-		// 	var login_form = $('<form method="POST" target="login_process"/>');
-		// 	login_form.attr("action", 'https://m.socar.kr/user/login');
-		// 	$.each(login_param, function(name, value) {
-		// 		$("<input type='hidden'>")
-		// 		.attr("name", name)
-		// 		.attr("value", value)
-		// 		.appendTo(login_form);
-		// 	});
-		// 	var login_iframe = $('<iframe id="login_process" height="0" width="0" style="display:none" src="about:blank" name="login_process"/>');
-		// 	login_iframe.appendTo(login_form);
-		// 	login_form.appendTo('body');
-		// 	login_form.submit();
-		// 	return false;
-		// }
-		$('#btn_join').click(function () {
-			$.cookie('tmp_phone_from_mobile', $('#phone').val().replace(/^\+82/,'0').replace('-',''), {expires: 365, path: '/'});
-			location.replace($(this).attr('href'));
-			return false;
-		});
-		var options = {
-			currentURL : document.URL.split('?')[0],
-			sns_logout_url : "https://api.socar.kr/user/sns_connect_close",
-			conType : 'login',
-			fb_init : true,
-			twit_init : true,
-			naver_init : true,
-			kakao_init : true,
-			btwit_login_force : false,
-			fb_request_uri	: "https://api.socar.kr/facebook/get_oauth_uri"
-			,fb_oauth_uri	: "https://api.socar.kr/facebook/get_access_token"
-			,twit_request_uri: "https://api.socar.kr/twitter/get_request_token"
-			,twit_oauth_uri	: "https://api.socar.kr/twitter/get_access_token"
-			,naver_request_uri: "https://api.socar.kr/naver/get_request_token"
-			,naver_oauth_uri	: "https://api.socar.kr/naver/get_access_token"
-			,kakao_request_uri	: "https://api.socar.kr/kakao/get_request_token"
-			,kakao_oauth_uri	: "https://api.socar.kr/kakao/get_access_token"
-			
-			,device_type : "mobile_web"
-			
-			
-			,os_type : "ios"
-			
-			,handler : {
-				fb_login_hdlr : SNSlogInHdlr
-				,twit_login_hdlr : SNSlogInHdlr
-				,naver_login_hdlr : SNSlogInHdlr
-				,kakao_login_hdlr : SNSlogInHdlr
-			}
-		};
-		var sns_proc = $().snsInterlock(options);
-		$("#fb_login").bind("click", sns_proc.fb_login);
-		$("#naver_login").bind("click", sns_proc.naver_login);
-		$("#kakao_login").bind("click", sns_proc.kakao_login);
-	});
-	////////////////////////////////////////////////////////////////
-	function SNSlogInHdlr($data) {
-	/*
-		console.log("member_id: " + $data.member_id);
-		console.log("email:" + $data.email);
-		console.log("provider: " + $data.provider);
-		console.log("username: " + $data.username);
-		console.log("oauth_uid: " + $data.oauth_uid);
-		*/
-		// var member_id	= $data.member_id,
-		// email		= $data.email,
-		// provider	= $data.provider,
-		// username	= $data.username,
-		// oauth_uid	= $data.oauth_uid;
-		// //SNS 간편로그인
-		// if(member_id !== null && member_id != '') {
-		// 	var device_id = $('#device_id').val();
-		// 	var device_model = $('#device_model').val();
-		// 	var os = $('#os').val();
-		// 	var version = $('#version').val();
-		// 	var referer = $('#referer').val();
-		// 	var token = $('#token').val();
-		// 	initReservationCookie();
-		// 	var login_param = {
-		// 		join_type	: 'sns',
-		// 		member_id	: member_id,
-		// 		email		: $.trim(email),
-		// 		oauth_uid	: oauth_uid,
-		// 		provider	: provider,
-		// 		device_id	: device_id,
-		// 		device_model: device_model,
-		// 		os: os,
-		// 		version: version,
-		// 		referer: referer,
-		// 		token: token
-		// 	};
-		// 	var login_form = $('<form method="POST" target="login_process"/>');
-		// 	login_form.attr("action", 'https://m.socar.kr/user/login');
-		// 	$.each(login_param, function(name, value) {
-		// 		$("<input type='hidden'>")
-		// 		.attr("name", name)
-		// 		.attr("value", value)
-		// 		.appendTo(login_form);
-		// 	});
-		// 	var login_iframe = $('<iframe id="login_process" height="0" width="0" style="display:none" src="about:blank" name="login_process"/>');
-		// 	login_iframe.appendTo(login_form);
-		// 	login_form.appendTo('body');
-		// 	login_form.submit();
-		// }
-		// else {
-		// 	alert('연동된 SNS계정이 없습니다. 신규가입이나 쏘카계정 로그인을 해주세요.');
-		// 	document.location.href=document.URL.split('?')[0];
-		// }
-		// return;
-	}
-	function initTouchSlider() {
-		var ratio = window.devicePixelRatio;
-		var screenWidth = screen.width;
-		if(screenWidth != 0 && ratio != 0) {
-			var $width = parseInt(screenWidth/ratio, 10);
-			if( $width >= 320 )
-			{
-				$("#touchSlider").width(Number(screenWidth/ratio)-22);
-				$(".touchslider-item, .touchslider-nav").width(Number(screenWidth/ratio)-24)
-			}
-		}
-		$("#touchSlider").touchSlider({
-			mouseTouch: true,
-			autoplay: true,
-			totalitem: $("#totalCnt").text(),
-			navicnt:  '#naviCnt',
-			predisableClass: 'l_disable',
-			nextdisableClass: 'r_disable'
-		});
-		$(".content").dotdotdot({height: 60, wrap:'letter', watch: true});
-	}
-	var StringBuffer = function() {
-		this.buffer = [];
-	};
-	StringBuffer.prototype = {
-		clear : function() {
-			this.buffer = [];
-		},
-		toString : function() {
-			return this.buffer.join("");
-		},
-		append : function(str) {
-			this.buffer.push(str);
-			return this;
-		}
-	};
-	</script>
-	<script>	
-
-	</script>
-	<!-- header -->
-	<header>
-		<h1><span>
-			
-			<img src='template/asset/images/socar_logo.png' width="95px" height="20px" alt="socar" valign="top" style="margin-top:12px;" />
-			
-		</span></h1>
-		
-	</header>
-	<!-- //header -->
-	<div id="contents">
-		<section class="loginForm">
-			<form name="" method="post" action="">
-				<fieldset>
-					<legend>로그인</legend>
-					<div id="bxform" class="bx">
-						<input id="device_id" type="hidden" value="" />
-						<input id="device_model" type="hidden" value="" />
-						<input id="os" type="hidden" value="" />
-						<input id="version" type="hidden" value="" />
-						<input id="token" type="hidden" value="" />
-						<input id="referer" type="hidden" value="" />
-						<input id="phone" type="hidden" value="" />
-						<form name="myForm">
-							<dl>
-								<dt><span>이메일</span></dt>
-								<dd>
-									<input type="email" ng-model="id">
-									<!-- <input type="email" name="input" ng-model="user.id" placeholder="your@email.com" required /> -->
-								</dd>
-							</dl>
-							<dl>
-								<dt><span>비밀번호</span></dt>
-								<dd>
-									<input type="password" name="input" ng-model="pw" placeholder="********"/>
-								</dd>
-							</dl>	
-						</form>
-						
-					</div>
-					<div class="relative">
-						<div class="autoCheck">
-							<a id="btn_save_info" href="#"><span id="save_info" class="chk"></span>로그인 정보 기억</a>
-						</div>
-						<div class="idpw">
-							<a href='user/find_id.html'>아이디 찾기</a>
-							<span class="txt_bar">|</span>
-							<a href='user/find_pw.html'>비밀번호 찾기</a>
-						</div>
-					</div>
-					<div class="rbtn rbtn_login"><input ng-click="login(id, pw)" id="loginbtn" type="button" value="로그인" /></div>
-					<div class="box_snscont">
-						<div class="box_snscont_inner">
-							<div class="sns left_c"><a href="#none" class="facebook" id="fb_login"><span>페이스북</span></a></div>
-							<div class="sns center_c"><a href="#none" class="naver" id="naver_login"><span>네이버</span></a></div>
-							<div class="sns right_c"><a href="#none" class="cacao" id="kakao_login"><span>카카오톡</span></a></div>
-						</div>
-					</div>
-				</fieldset>
-			</form>
-		</section>
-		<div class="wrap_login_link">
-			<!-- <a id='btn_join' href='"javascript:if(confirm('http://m.socar.kr/user/sign_up  \n\nThis file was not retrieved by BackStreet browser, because it is addressed on a domain or path outside the boundaries set for its Project.  \n\nDo you want to open it from the server?'))window.location='http://m.socar.kr/user/sign_up'"'>개인 회원가입하기</a>
-			<span class="txt_bar">|</span>
-			<a href="user/join_corp.html">법인 회원가입하기</a> -->
-		</div>
-	</div>
-	<div id="twit_login_layer" class="sns_join_layer sns_login_layer" style="display:none">
-		<div class="bg"></div>
-		<div class="layer_area" id="sns_join_layer">
-			<div class="inner">
-				<div class="tit">다른 아이디로 로그인</div>
-				<div class="box_tw">
-					<a href="#none" class="btn_sns tw" id="twit_login"><span>트위터 아이디로 로그인</span></a>
-					<a href="#none" class="btn_sns sh" id="shinhan_login"><span>신한 앱카드로 로그인</span></a>
+		<!-- header -->
+		<header>
+			<h1><span>			
+				<img src='template/asset/images/socar_logo.png' width="95px" height="20px" alt="socar" valign="top" style="margin-top:12px;" />
+			</span></h1>		
+		</header>
+		<!-- //header -->
+		<div id="contents">
+			<section class="loginForm">
+				<div class="bx">
+					<form name="myForm">
+						<dl>
+							<dt><span>이메일</span></dt>
+							<dd>
+								<input type="email" id="id" name="input" ng-model="id" placeholder="your@email.com" ng-keydown="focus($event)" required>
+							</dd>
+						</dl>
+						<dl>
+							<dt><span>비밀번호</span></dt>
+							<dd>
+								<input type="password" id="pw" ng-model="pw" placeholder="********" ng-keydown="login($event, myForm.input.$valid, id, pw)"/>
+							</dd>
+						</dl>	
+					</form>
 				</div>
-				<a href="#" id="sns_join_layer_Close" class="btn_close_layer">팝업창 닫기</a></div>
+				<div class="relative">
+					<div class="autoCheck">
+						<a id="btn_save_info" href="#"><span id="save_info" class="chk"></span>로그인 정보 기억</a>
+					</div>
+					<div class="idpw">
+						<a href='user/find_id.html'>아이디 찾기</a>
+						<span class="txt_bar">|</span>
+						<a href='user/find_pw.html'>비밀번호 찾기</a>
+					</div>
+				</div>
+				<div class="rbtn rbtn_login"><input ng-click="login($event, myForm.input.$valid, id, pw)" id="loginbtn" type="button" value="로그인" /></div>
+				<div class="box_snscont">
+					<div class="box_snscont_inner">
+						<div class="sns left_c"><a href="#none" class="facebook" id="fb_login"><span>페이스북</span></a></div>
+						<div class="sns center_c"><a href="#none" class="naver" id="naver_login"><span>네이버</span></a></div>
+						<div class="sns right_c"><a href="#none" class="cacao" id="kakao_login"><span>카카오톡</span></a></div>
+					</div>
+				</div>
+			</section>
+			<div class="wrap_login_link">
+				<a id='btn_join' href="sign_up.html">개인 회원가입하기</a>
+				<span class="txt_bar">|</span>
+				<a href="user/join_corp.html">법인 회원가입하기</a>
 			</div>
 		</div>
+		<div id="twit_login_layer" class="sns_join_layer sns_login_layer" style="display:none">
 		<div class="default_indicator">
 			<div class="bg"></div>
-			<div class="spinner">
-				<div class="spinner-container container1">
-					<div class="circle1"></div>
-					<div class="circle2"></div>
-					<div class="circle3"></div>
-					<div class="circle4"></div>
-				</div>
-				<div class="spinner-container container2">
-					<div class="circle1"></div>
-					<div class="circle2"></div>
-					<div class="circle3"></div>
-					<div class="circle4"></div>
-				</div>
-				<div class="spinner-container container3">
-					<div class="circle1"></div>
-					<div class="circle2"></div>
-					<div class="circle3"></div>
-					<div class="circle4"></div>
-				</div>
-			</div>
 			<div style="position:relative;margin:auto;text-align:center"><span style="color:#fff;">잠시만 기다려주세요</span></div>
 		</div>
-		<script type="text/javascript" src="template/asset/js/kakao.min.js_1481091896.javascript" charset="utf-8"></script>
-		<script type="text/javascript" src="template/asset/js/sns_interlocking.js_1481091896.javascript" charset="utf-8"></script>
-		<script type="text/javascript">
-		</script>
+<!-- 		<script type="text/javascript" src="template/asset/js/kakao.min.js_1481091896.javascript" charset="utf-8"></script>
+		<script type="text/javascript" src="template/asset/js/sns_interlocking.js_1481091896.javascript" charset="utf-8"></script> -->
 	</body>
 </html>

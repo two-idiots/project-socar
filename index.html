@@ -1,143 +1,112 @@
 <!DOCTYPE HTML>
-<head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
-<meta name="description" content="내 주변 5분거리에서 원하는 시간 만큼 타면된다 쏘카! 신규 가입 시 3시간 무료 " />
-<meta name="keywords" content="서울,제주,부산,경기,인천,카셰어링,카쉐어링,렌트,렌트카,렌터카" />
-<meta name="title" content="카셰어링 No.1 쏘카">
-<meta property="og:type" content="website">
-<meta property="og:title" content="카셰어링 No.1 쏘카">
-<meta property="og:description" content="내 주변 5분거리에서 원하는 시간 만큼 타면된다 쏘카! 신규 가입 시 3시간 무료">
-<meta property="og:image" content="http://www.socar.kr/template/asset/images/pc_m_web_meta_tag.jpg">
-<meta property="og:url" content="http://www.socar.kr/">
-<!--네이버 사이트 확인-->
-<meta name="naver-site-verification" content="070f0a98381321c1dbe5b675366712f03d6681d1"/>
-<title>카셰어링 No.1 쏘카</title>
-<link rel="stylesheet" href='template/asset/css/font-awesome.min.css' />
-<link rel="stylesheet" href='https://dwrr4uupj8j1p.cloudfront.net/template/asset/bootstrap/css/bootstrap.min.css'/>
+<html lang="en" ng-app="main">
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+		<title>카셰어링 No.1 쏘카</title>
+		<link rel="stylesheet" href='template/asset/css/font-awesome.min.css' />
+		<link rel="stylesheet" href='https://dwrr4uupj8j1p.cloudfront.net/template/asset/bootstrap/css/bootstrap.min.css'/>
 
-<!--
-<link rel="stylesheet" href="template/asset/css/Ubuntu.css"/>
-<link rel="stylesheet" href="template/asset/css/styles.css"/>
-<link rel="stylesheet" href="template/asset/css/blue.css"/>
--->
-<link rel="stylesheet" href='https://dwrr4uupj8j1p.cloudfront.net/template/asset/css/hello-scss.css' />
-<link rel="stylesheet" href='https://dwrr4uupj8j1p.cloudfront.net/template/asset/css/animate.css' />
-<link rel="shortcut icon" href="http://www.socar.kr/template/asset/images/favicon.ico" type="image/x-icon" />
-<!--[if lt IE 9]>
-<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-<![endif]-->
-<!-- Javascript Library -->
-<script type="text/javascript" src="template/asset/js/jquery.min.js"></script>
-<script type="text/javascript" src="template/asset/js/jquery-ui.min.js"></script>
-<script type="text/javascript" src="template/asset/js/cycle.js"></script>
-<script type="text/javascript" src="template/asset/js/jquery.inview.js"></script>
-<script type="text/javascript" src="template/asset/js/main.js"></script>
-</head>
-<body>
-<!-- Main Section -->
-<div class="main-section">
-	<div class="container">
-		<div class="row">
-			<!-- Main Text -->
-			<div class="col-md-6">
-				<div class="main-txt"></div>
-				
-				<div class="main-but">
-          <div class="butt1"><a class="button" href="/user/sign_up">회원가입</a></div><!-- http://m.socar.kr/dn -->
-					<div class="butt2"><a class="button" id="reg" href="javascript:if(confirm('http://m.socar.kr/dn  \n\nThis file was not retrieved by BackStreet browser, because it is addressed on a domain or path outside the boundaries set for its Project.  \n\nDo you want to open it from the server?'))window.location='http://m.socar.kr/dn'" style="background-color:white; border:none; color:black;">앱다운로드</a></div>
-					<!--div class="butt1"><a class="button" href="javascript:if(confirm('http://m.socar.kr/dn  \n\nThis file was not retrieved by BackStreet browser, because it is addressed on a domain or path outside the boundaries set for its Project.  \n\nDo you want to open it from the server?'))window.location='http://m.socar.kr/dn'">앱다운로드</a></div--><!-- http://m.socar.kr/dn -->
-					<!--div class="butt2"><a class="button" id="reg" href="javascript:if(confirm('http://m.socar.kr/user/sign_up  \n\nThis file was not retrieved by BackStreet browser, because it is addressed on a domain or path outside the boundaries set for its Project.  \n\nDo you want to open it from the server?'))window.location='http://m.socar.kr/user/sign_up'">회원가입</a></div-->
+		<link rel="stylesheet" href='/template/asset/css/hello-scss.css' />
+		<link rel="stylesheet" href='/template/asset/css/animate.css' />
+		<link rel="shortcut icon" href="/template/asset/images/favicon.ico" type="image/x-icon" />
+		<!-- Javascript Library -->
+		<script type="text/javascript" src="template/asset/js/jquery.min.js"></script>
+		<script type="text/javascript" src="template/asset/js/jquery-ui.min.js"></script>
+		
+
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+		<script>
+			/**
+			*  Module
+			*
+			* Description
+			*/
+			angular.module('main', [])
+			.controller('mainController', ['$scope', function($scope){
+				$scope.toggleClick = function(){
+					angular.element($('.js-navi-menu')).css({
+						'float':'none'
+					});
+					angular.element($('.js-navi')).css({
+						'width' : '100%'
+					}).slideToggle();
+				}
+			}])
+		</script>
+	</head>
+	<body ng-controller="mainController">
+	<!-- Main Section -->
+	<div class="main-section">
+		<div class="container">
+			<div class="row">
+				<!-- Main Text -->
+				<div class="col-md-6">
+					<div class="main-txt"></div>					
+					<div class="main-but">
+	          <div class="butt1"><a class="button" href="/user/sign_up">회원가입</a></div>
+						<div class="butt2"><a class="button" id="reg" href="javascript:if(confirm('http://m.socar.kr/dn  \n\nThis file was not retrieved by BackStreet browser, because it is addressed on a domain or path outside the boundaries set for its Project.  \n\nDo you want to open it from the server?'))window.location='http://m.socar.kr/dn'" style="background-color:white; border:none; color:black;">앱다운로드</a></div>
+					</div>
+					<div class="sub-butt">
+					<a class="quat one" href="/user" id="already_user"> 이미 가입하셨나요?</a>
+					<a class="quat two" href="user.html" id="login"> 로그인 <i class="fa fa-angle-right login-ico"></i> </a>
+					</div>
+					
 				</div>
-				<div class="sub-butt">
-				<a class="quat one" href="/user" id="already_user"> 이미 가입하셨나요?</a>
-				<a class="quat two" href="user.html" id="login"> 로그인 <i class="fa fa-angle-right login-ico"></i> </a>
-				</div>
-				
 			</div>
 		</div>
 	</div>
-</div>
-<!-- END of Main Section -->
-<!-- Header Section -->
-<div class="header-place">
-	<div class="header">
-		<div class="container nav-wrapper">
-			<button class="navbar-toggle js-navbar-toggle" type="button">
-				<i class="fa fa-bars"></i>
-			</button>
-			<div class="logo"><img id='' src='https://dwrr4uupj8j1p.cloudfront.net/template/asset/images/app_main/socar_logo.png' alt="SOCAR" /></div>
-			<ul class="navi nav nav-hover js-navi">
-				<li class="navi-menu js-navi-menu"><a href="user.html" id="login">로그인</a></li>
-				<li class="navi-menu js-navi-menu"><a href="reserve.html" id="reserve">예약하기</a></li>
-				<li class="navi-menu js-navi-menu"><a href="user/smart_key.html" id="smart_key">스마트키</a></li>
-				<li class="navi-menu js-navi-menu"><a href="mypage.html" id="mypage">마이페이지</a></li>
-				<li class="navi-menu js-navi-menu"><a href="cs.html" id="cs">공지사항</a></li>
-				<li class="navi-menu js-navi-menu"><a href="cs/faq.html" id="faq">FAQ</a></li>
-				<li class="navi-menu js-navi-menu"><a href="javascript:if(confirm('http://m.socar.kr/chat  \n\nThis file was not retrieved by BackStreet browser, because it is addressed on a domain or path outside the boundaries set for its Project.  \n\nDo you want to open it from the server?'))window.location='http://m.socar.kr/chat'" id="faq">쏘카톡 상담하기</a></li>
-			</ul>
+	<!-- END of Main Section -->
+	<!-- Header Section -->
+	<div class="header-place">
+		<div class="header">
+			<div class="container nav-wrapper">
+				<button class="navbar-toggle js-navbar-toggle" type="button" ng-click="toggleClick()">
+					<i class="fa fa-bars"></i>
+				</button>
+				<div class="logo"><img id='' src='template/asset/images/socar_logo.png' alt="SOCAR" /></div>
+				<ul class="navi nav nav-hover js-navi">
+					<li class="navi-menu js-navi-menu"><a href="user.html" id="login">로그인</a></li>
+					<li class="navi-menu js-navi-menu"><a href="reserve.html" id="reserve">예약하기</a></li>
+					<li class="navi-menu js-navi-menu"><a href="user/smart_key.html" id="smart_key">스마트키</a></li>
+					<li class="navi-menu js-navi-menu"><a href="mypage.html" id="mypage">마이페이지</a></li>
+					<li class="navi-menu js-navi-menu"><a href="cs.html" id="cs">공지사항</a></li>
+					<li class="navi-menu js-navi-menu"><a href="cs/faq.html" id="faq">FAQ</a></li>
+				</ul>
+			</div>
 		</div>
 	</div>
-</div>
-<!-- Section 1 -->
-<div class="container">
-	<div class="container-wrap">
-		<div class="copy-txt"><img src='https://dwrr4uupj8j1p.cloudfront.net/template/asset/images/hello/txt_01_160211.png' alt="우리주변 5분 거리에. 쏘카는 언제 어디서나 쉽게 찾을 수 있어요. 집, 학교, 회사 등 필요한 곳에서 지금 바로 쏘카존을 검색해 보세요."></div>
-		<div class="container-1"></div>
-	</div>
-</div>
-<!-- END of Section 1 -->
-<!-- Section 2 -->
-<div class="container">
-	<div class="container-wrap">
-		<div class="copy-txt"><img src='https://dwrr4uupj8j1p.cloudfront.net/template/asset/images/hello/txt_02_160211.png' alt="미니, 프리우스, 레이. 그리고 더! 데이트, 쇼핑, 여행. 즐거운 순간을 위한 나만의 차가 필요하신가요? 라이프 스타일에 맞는 완벽한 차를 선택해 보세요."></div>
-		<div class="container-2"></div>
-	</div>
-</div>
-<!-- END of Section 2 -->
-<!-- Section 3 -->
-<div class="container">
-	<div class="container-wrap">
-		<div class="copy-txt"><img src='https://dwrr4uupj8j1p.cloudfront.net/template/asset/images/hello/txt_03_160211.png' alt="내 손 안에 스마트키. 쏘카앱을 다운로드 받고 예약부터, 탑승, 반납까지 스마트폰으로 간편하게 사용해 보세요."></div>
-		<div class="container-3"></div>
-	</div>
-</div>
-<!-- END of Section 3 -->
-<!-- SNS icon -->
-<div class="container">
-	<div class="sns">
-		<a href="javascript:if(confirm('https://www.facebook.com/socarsharing  \n\nThis file was not retrieved by BackStreet browser, because it is addressed on a domain or path outside the boundaries set for its Project.  \n\nDo you want to open it from the server?'))window.location='https://www.facebook.com/socarsharing'" id="facebook" target="_blank"><img src='https://dwrr4uupj8j1p.cloudfront.net/template/asset/images/hello/sns_ico_1.png' alt="facebook" class="sns_f"></a><a href="javascript:if(confirm('http://m.kakao.com/s/2449  \n\nThis file was not retrieved by BackStreet browser, because it is addressed on a domain or path outside the boundaries set for its Project.  \n\nDo you want to open it from the server?'))window.location='http://m.kakao.com/s/2449'" id="kakao" target="_blank"><img src='https://dwrr4uupj8j1p.cloudfront.net/template/asset/images/hello/sns_ico_2.png' alt="kakao"></a><a href="javascript:if(confirm('https://instagram.com/socarsharing/  \n\nThis file was not retrieved by BackStreet browser, because it is addressed on a domain or path outside the boundaries set for its Project.  \n\nDo you want to open it from the server?'))window.location='https://instagram.com/socarsharing/'" id="instagram" target="_blank"><img src='https://dwrr4uupj8j1p.cloudfront.net/template/asset/images/hello/sns_ico_3.png' alt="instargram"></a>
-	</div>
-</div>
-<!-- END of SNS icon -->
-<!-- footer -->
-<div class="footer">
+	<!-- Section 1 -->
 	<div class="container">
-		<div class="copy">(주)쏘카 대표자: 이재용 &nbsp; 통신판매업신고: 제2011-제주조천-0021호 &nbsp; 사업자등록번호: 616-81-90529 &nbsp; 주소: 제주특별자치도 제주시 도령로 15길 6, 907호 (연동엘리시아) 63126 &nbsp; © SOCAR</div>
+		<div class="container-wrap">
+			<div class="copy-txt"><img src='template/asset/images/hello/txt_01_160211.png' alt="우리주변 5분 거리에. 쏘카는 언제 어디서나 쉽게 찾을 수 있어요. 집, 학교, 회사 등 필요한 곳에서 지금 바로 쏘카존을 검색해 보세요."></div>
+			<div class="container-1"></div>
+		</div>
 	</div>
-</div>
-<!-- END of Footer -->
-<br><br><br><br>
-<script language="javascript" type="text/javascript">
-	$(document).ready(function() {
-		$('.js-navbar-toggle').bind('click',function(){
-			$('.js-navi-menu').css({
-				'float':'none'
-			});
-			$('.js-navi').css('width','100%').slideToggle();
-			return false;
-		});
-		$('.js-app-close').bind('click',function(){
-			$('.js-app-place').css('display','none');
-			return false;
-		});
-	});
-	$(document).click(function(e) {
-		var clicked_id = e.target.id;
-		if(clicked_id){
-			ga('send', 'event', 'mobile_web', e.target.id, {'page' : this.href});
-		}
-	});
-</script>
-</body>
+	<!-- END of Section 1 -->
+	<!-- Section 2 -->
+	<div class="container">
+		<div class="container-wrap">
+			<div class="copy-txt"><img src='template/asset/images/hello/txt_02_160211.png' alt="미니, 프리우스, 레이. 그리고 더! 데이트, 쇼핑, 여행. 즐거운 순간을 위한 나만의 차가 필요하신가요? 라이프 스타일에 맞는 완벽한 차를 선택해 보세요."></div>
+			<div class="container-2"></div>
+		</div>
+	</div>
+	<!-- END of Section 2 -->
+	<!-- Section 3 -->
+	<div class="container">
+		<div class="container-wrap">
+			<div class="copy-txt"><img src='template/asset/images/hello/txt_03_160211.png' alt="내 손 안에 스마트키. 쏘카앱을 다운로드 받고 예약부터, 탑승, 반납까지 스마트폰으로 간편하게 사용해 보세요."></div>
+			<div class="container-3"></div>
+		</div>
+	</div>
+	<!-- END of Section 3 -->
+	<!-- footer -->
+	<div class="footer">
+		<div class="container">
+			<div class="copy">(주)쏘까 대표자: 심정훈 &nbsp; 통신판매업신고: 제1004-부산사상-1004호 &nbsp; 사업자등록번호: 606-82-06851 &nbsp; 주소: 부산시 사상구 주례2동 동서대학교 &nbsp; © SOGGAR</div>
+		</div>
+	</div>
+	<!-- END of Footer -->
+	<br><br><br><br>
+	</body>
 </html>
