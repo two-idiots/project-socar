@@ -18,7 +18,7 @@ module.exports = function(app) {
         salt: salt,
       };
 
-      var sql = 'INSERT INTO users SET?';
+      var sql = 'INSERT INTO user SET?';
 
       conn.query(sql, user, function(err, results) {
         if(err) {
@@ -43,13 +43,13 @@ module.exports = function(app) {
   route.post('/login', function(req, res) {
     var uname = req.body.username;
     var pwd = req.body.password;
-    var sql = 'SELECT * FROM users WHERE user_id=?';
+    var sql = 'SELECT * FROM user WHERE user_id=?';
     conn.query(sql, uname, function(err, results) {
       if(err) {
         return console.log('There is no user.');
       } else {
         var user = results[0];
-        return hasher({password: pwd, salt: user.slat}, function(err, pass, salt, hash) {
+        return hasher({password: pwd, salt: user.salt}, function(err, pass, salt, hash) {
           if(hash == user.password) {
             req.session.displayName = user.user_name;
             res.redirect('/home');
