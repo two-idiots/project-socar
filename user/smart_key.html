@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, user-scalable=no"/>
+	<title>카셰어링 No.1 쏘카</title>
+	<script type="text/javascript" src='https://dwrr4uupj8j1p.cloudfront.net/template/asset/js/minified/jquery-compiled-min.js?v=20160317'></script>
+	<script type="text/javascript" id="data-injection" src='https://dwrr4uupj8j1p.cloudfront.net/template/asset/js/minified/data-injection-min.js?v=20160317'></script>
+</head>
+<!-- inject:css -->
+<link rel="stylesheet" type="text/css" href='https://dwrr4uupj8j1p.cloudfront.net/template/asset/css/style-bundle.css?v=d6a0d6eb' />
+<!-- endinject -->
+<body>
+	<div id="render-target" class="smky-wrapper"></div>
+	<!-- inject:js -->
+	<script type="text/javascript" src='https://dwrr4uupj8j1p.cloudfront.net/template/asset/js/bundle.min.js?v=d6a0d6eb'></script>
+	<!-- endinject -->
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+	<script src="../template/js/header.js"></script>
+	<script>
+			/**
+			* carInfo Module
+			*
+			* Description
+			*/
+		angular.module('carInfo', ['header'])
+		.controller('mainController', ['$scope', '$http', function($scope, $http){
+			$scope.name = '차량 정보';
+			$scope.$watch('$viewContentLoaded', function(){
+				console.log("메롱");
+				$http.post('http://10.1.65.64:3000/reserve/car_info',{car : '모닝'}).success(function(docs){
+					console.log(docs);
+					$scope.carInfo = docs;
+				}).error(function(docs){
+					console.log(docs);
+					console.log("error : " + docs);
+				});
+			});
+		}])
+	</script>
+</body>
+
+</html>

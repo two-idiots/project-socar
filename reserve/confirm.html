@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+<html ng-app="reserveConfirm">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0" />
+		<title>카셰어링 No.1 쏘카</title>
+		<link rel="stylesheet" type="text/css" href='https://dwrr4uupj8j1p.cloudfront.net/template/asset/css/socar_new.css?v=20161208'/>
+
+		<script type="text/javascript" src='https://dwrr4uupj8j1p.cloudfront.net/template/asset/js/minified/jquery-1.8.3.min.js'></script>
+		<script type="text/javascript" src='https://dwrr4uupj8j1p.cloudfront.net/template/asset/js/minified/jquery.cookie.min.js?v=013'></script>
+		<script type="text/javascript" src='https://dwrr4uupj8j1p.cloudfront.net/template/asset/js/minified/jquery.dotdotdot-1.5.9.min.js'></script>
+		<script type="text/javascript" src='https://dwrr4uupj8j1p.cloudfront.net/template/asset/js/minified/jquery-easing.js'></script>
+		<script type="text/javascript" src='https://dwrr4uupj8j1p.cloudfront.net/template/asset/js/common.js?v=20161213-1'></script>
+		<script type="text/javascript" src='https://dwrr4uupj8j1p.cloudfront.net/template/asset/js/minified/json2.min.js?v=20140204'></script>
+		<script type="text/javascript" src='https://dwrr4uupj8j1p.cloudfront.net/template/asset/js/minified/fastclick.min.js?v=20150105'></script>
+		<script type="text/javascript" src='https://dwrr4uupj8j1p.cloudfront.net/template/asset/js/ssun.js?v=20151220'></script>
+
+		<script type="text/javascript" src="/template/reservation/../asset/js/mobiscroll.core-2.4.5.js?v=2"></script>
+		<link rel="stylesheet" type="text/css" href="/template/reservation/../asset/css/mobiscroll.custom-2.4.5.min.css" />
+		<link rel="stylesheet" type="text/css" href="../template/asset/css/confirm.css">
+		<script type="text/javascript" src="/template/asset/js/mobiscroll.datetime-2.4.5.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+		<script>
+			/**
+			* reserveConfirm Module
+			*
+			* Description
+			*/
+			angular.module('reserveConfirm', [])
+			.controller('mainController', ['$scope', function($scope){
+				$scope.name = '쏘카 예약확인';
+				$scope.$watch('$viewContentLoaded', function(){
+					
+				});
+			}])
+		</script>
+	</head>
+	<body id="reservation" class="confirm" onload="">
+	<div id="contents" class="fixed">
+		<div id="reservation" class="socar-list">
+			<section class="car-list">     
+				<ul>          
+					<li class="cartype1 car1" style="background-image:url('https://dwrr4uupj8j1p.cloudfront.net/template/asset/images/car_image/car11_n.png');border-bottom:0px">
+						<a class="lia" title=''>
+							<div class="car-info-container">
+								<h4 class="car-name">
+									<span id="car_name">정미니</span>
+									<span id="car_num">(53허5518)</span>
+								</h4>
+								<div class="detail">
+									대여시간 <em>0시간 30분</em>
+									<div class="car-list-item-info-additional-box">
+										<span class="car-list-item-info-additional">
+											주유량
+											75%
+										</span>
+										<span> | </span>                      
+										<span class="car-list-item-info-additional">최근 세차</span>
+									</div>
+								</div>
+								<span id="car_id" style="display:none;">2569</span>
+							</div><!--/car-info-container-->
+							<div class="timeline">
+								<div class="bar">                  
+									<div class="able 0">
+									</div>                  
+									<div class="select"></div>
+								</div>                
+								<span class="time1 time date">12.15</span>
+								<span class="time2 time">06:00</span>
+								<span class="time3 time">12:00</span>
+								<span class="time4 time">18:00</span>
+								<span class="time5 time date">12.16</span>
+							</div>
+						</a>
+					</li>        
+				</ul>      
+			</section>
+		</div>
+		<div class="content_inner" style='overflow:hidden;text-overflow: ellipsis;'>
+			<section>
+				<div class="section-header">대여정보</div>
+				<div class="bx">
+					<dl>
+						<dt><span>차종</span></dt>
+						<dd><a href=http://m.socar.kr/reserve/car_info/2569>미니쿠퍼
+							<span style='color:grey; text-decoration: none;'> · 휘발유</span></a></dd>
+						</dl>
+						<dl class="typeS">
+							<dt><span>대여일</span></dt>
+							<dd><input class="needsclick" style="border:0px;background-color:transparent;font-weight:bold;" id="startDay" href="#" placeholder="변경할 반납일을 선택해주세요" /></dd>
+						</dl>
+						<dl>
+							<dt><span>반납일</span></dt>
+							<dd><input class="needsclick" style="border:0px;background-color:transparent;font-weight:bold" id="endDay" href="#" placeholder="변경할 반납일을 선택해주세요" /></dd>
+						</dl>
+						<dl>
+							<dt>
+								<span>대여존</span>
+							</dt>
+							<dd>        
+								<a name="socarzone_info" href=http://m.socar.kr/reserve/zone_info/642>냉정역 1번출구</a>        
+							</dd>
+						</dl>
+						<dl>
+							<dt>
+								<span>반납존</span>
+							</dt>
+							<dd>
+								<a name="socarzone_info" href=http://m.socar.kr/reserve/zone_info/642>냉정역 1번출구</a>        
+							</dd>
+						</dl>
+					</section>
+					<section class="charge-info">
+						<div class="section-header">요금정보</div>
+						<div class="bx">
+							<dl>
+								<dt><span>대여요금</span></dt>
+								<dd>          
+									<span>10,500원</span>&nbsp;&nbsp;2,000원 (81%↓)          
+								</dd>
+							</dl>
+							<dl>
+								<dt><span>보험료</span></dt>
+								<dd>
+									<select class="card_select" id="js-protection-fee-select">            
+										<option value="30">자기부담금 최대 30만원</option>            
+										<option value="70">자기부담금 최대 70만원</option>            
+									</select>
+								</dd>
+							</dl>
+							<dl>
+								<dt><span>결제요금</span></dt>
+								<dd>
+									<em id="apply_price">2,950원</em>
+								</dd>
+							</dl>
+							<dl>
+								<dt><span>주행요금</span></dt>
+								<dd id='display_oil_price'>          
+									<em>220원/km</em>          
+									<span style="color:#999999; text-decoration: none;"> · 반납 후 별도결제</span>
+								</dd>
+							</dl>
+							<dl>
+								<dt><span>결제카드</span></dt>
+								<dd>
+									<select class="card_select" id="billings">          
+										<option value='1853064' selected='selected'>국민카드(2016.10.06)</option>          
+										<option value='1767957'>농협카드(2016.09.09)</option>          
+									</select>
+								</dd>
+							</dl>
+						</div>
+					</section>
+					<div class="guide-use-rules-wrapper">
+						<div class="guide-use-rules-container">
+							<div class="guide-use-rules-warning">원활한 쏘카 이용을 위해 예약 전 확인해주세요!</div>
+							<div class="guide-use-rules-title">주요 이용안내</div>
+							<div class="guide-use-rules-content rule">      
+							</div>
+							<div class="guide-use-rules-title">페널티 안내</div>
+							<div class="guide-use-rules-content penalty"></div>
+						</div>
+					</div>
+
+					<div class="able_btn_layer" style='position:relative;'>
+						<form name="" method="post" action="" id='submit_form'>
+							<fieldset>
+								<div class="agree-check-container">
+									<div class="agreeCheck normal">
+										<div id="is_agree" class="is-agree"></div>
+										<div class="agree-check-description">
+											위 예약내역 및 결제내역을 확인하였으며,             
+											<strong data-url="/user/terms_view/3?frame=1" class="terms_view">자동차대여약관</strong>과 <strong data-url="/user/terms_view/1?frame=1" class="terms_view">회원이용약관</strong>, <strong data-url="/user/terms_view/7?frame=1" class="terms_view">개인정보 수집·이용</strong>에 동의합니다.
+										</div>
+									</div>
+								</div>
+								<legend>예약확인</legend>
+								<div class="rbtn_r">
+									<input type="submit" class="complete" value="예약하기" />
+								</div>
+							</fieldset>
+						</form>
+					</div>
+
+					<div class="disable_btn_layer" style='display:none'>
+						<div class="rbtn"><input id='disable_btn' type="button"  value="예약불가" /></div>
+						<section>
+							<ul class="tip">
+								<li><span></span>대여 시작 <em>3시간 이내에 예약 취소 시 위약금</em>이 부과됩니다. (대여요금과 보험료의 각 10%)</li>
+							</ul>
+						</section>
+					</div>
+				</div>
+			</div>
+
+			<!-- 예약완료 레이어 -->
+			<div class="mwLayer">
+				<div class="bg"></div>
+				<div id="mwCont" class="complete_Layer car1" style="top:280px;">
+					<!-- 원본 -->
+					<h2 style="background-image:url('https://dwrr4uupj8j1p.cloudfront.net/template/asset/images/car_image/car11_detail1_n.png');background-position:50% 20px;background-repeat:no-repeat;background-size:270px auto;">즐거운 드라이브 예약완료!</h2>
+					<h3>쏘카와 함께 신나게 달려요!</h3>
+					<dl>
+						<div class="btn"><a id="check_reserve" href="#">예약내역 확인 / 동승자 지정</a></div>
+						<a href="#" class="ly close-button close">창닫기</a>
+					</div>
+					<div class="lay_banner">    
+						<a class="socarzone-info-button" target='_blank' name="socarzone_info"><span class="zone-label">냉정역 1번출구</span> <span class="additional-label">쏘카존 정보 보기</span></a>   
+						<script>
+							var zoneName = '쏘카존'    
+							zoneName += ' 냉정역 1번출구';    
+							var link = encodeURI('http://map.daum.net/link/search/' + zoneName.replace(/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/g, ' ').trim() + '#windowopen');
+							$('.socarzone-info-button').attr('href', link);
+							$('.socarzone-info-button').click(function(){
+								ga('send', 'event', 'finish_reservation', 'view_socarzone', {'page' : this.href});
+							});
+						</script>
+					</div>
+				</div>
+
+				<!-- 약관보기 레이어 -->
+				<div id="terms_view_layer" style="display:none;">
+					<iframe id="terms_view_iframe" name="terms_view_iframe" style="display:none;"></iframe>
+				</div>
+				<!-- 약관보기 레이어 -->
+
+				<!-- D2D 추천 레이어 -->
+				<div class="layer_guide" id="d2d-recommend" style="display:none">
+					<div class="bg d2d-recommend-close"></div>
+					<div class="layer_guide_content layer_guide_content_large">
+						<div class="inner">
+							<div class="tit_layer_guide">잠깐! 더 이상 대기하지 마세요!</div>
+							<div class="cont_layer_guide">
+								<div class="detail_txt" style="margin-top: 0px;">
+									<div class="sub-tit sub-tit-large" style="padding-top: 10px;">
+										쏘카존에 쏘카가 없더라도,
+									</div>
+									<div class="sub-tit sub-tit-large" style="padding-bottom: 10px;">
+										가져다 드리는 'D2D예약' 서비스!
+									</div>
+									<div class="tit tit-small" style="padding-bottom: 10px;">
+										지금 바로 예약해보세요.
+									</div>
+
+									<div class="content-box">
+										<p class="title">도어투도어(D2D) 예약이란?</p>
+										<p class="content">원하는 위치와 시간에 차량을 배달해드리는 국내 최초 쏘카만의 서비스!</p>
+									</div>
+								</div>
+								<div class="btn btn_mt20">
+									<a class="btn_gray btn_half d2d-recommend-close" style="font-weight: normal">닫기</a>
+									<a class="btn_blue btn_half" href="/reserve/d2d" style="font-weight: normal">D2D예약</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- D2D 추천 레이어 END -->
+
+				<!-- 보험료 레이어 -->
+				<div class="layer_guide" id="js-protection-fee-description" style="display: none;">
+					<div class="bg js-protection-fee-description-close"></div>
+					<div class="layer_guide_content">
+						<div class="inner">
+							<a href="#" class="ly close-button close js-protection-fee-description-close">창닫기</a>
+							<div class="tit_layer_guide">쏘카 보험안내</div>
+							<div class="cont_layer_guide">
+								<div class="detail_txt" style="margin-top: 0px;">
+									<div class="sub-tit" style="padding-top: 10px;">
+										선택하신 보험료에 따라
+									</div>
+									<div class="sub-tit">
+										자차사고 보호를 받으실 수 있습니다.
+									</div>
+									<div class="sub-tit" style="padding-bottom: 10px;">
+										안심하고 쏘카를 이용하세요.
+									</div>
+									<div class="sub-tit">
+										[손해 면책 부담금에 따른 보험료]
+									</div>          
+									<div class="sub-tit">
+										· 최대 30만원 부담: 최대 19,000원/일
+									</div>          
+									<div class="sub-tit">
+										· 최대 70만원 부담: 최대 17,000원/일
+									</div>          
+								</div>
+								<div class="btn btn_mt20">
+									<a class="btn_blue" style="font-weight: normal" href="http://goo.gl/OIO2G8#windowopen" target="_blank">자세히 보기</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div><!-- 보험료 레이어 END -->
+
+				<!-- DAYPASS 할인 레이어 -->
+				<div id="layer-day-pass" class="layer_guide" style="display: none;">
+					<div class="bg layer-day-pass-close"></div>
+					<div class="layer_guide_content">
+						<div class="inner">
+							<a href="#" class="ly close-button close layer-day-pass-close">닫기</a>
+							<div class="tit_layer_guide">DAYPASS 할인 안내</div>
+							<div class="cont_layer_guide">
+								<div class="detail_txt" style="margin-top: 0px;">
+									<div class="sub-tit" style="padding-top: 10px;">
+										24시간 초과 예약하시면, 추가 할인됩니다.
+									</div>
+									<div class="sub-tit" style="padding-bottom: 10px;">
+										쏘카와 함께 즐거운 드라이빙 하세요 :)
+									</div>
+									<div class="sub-tit">[유의사항]</div>
+									<div class="sub-tit">
+										· 최초 예약 시 추가 할인율이 자동 적용됩니다.
+									</div>
+									<div class="sub-tit">
+										· 연장(앞당기기)의 경우에는 연장 건당 24시간<br />
+										초과 시 해당 시간에 대해 할인율이 적용되나,<br />
+										최초 예약과 합산되어 적용되지 않습니다.
+									</div>
+								</div>
+								<div class="btn btn_mt20">
+									<a class="btn_blue btn-light-weight" href="http://goo.gl/xVSJPr#windowopen" target="_blank">자세히 보기</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- DAYPASS 할인 레이어 END -->
+
+				<div id="indicator" style="display:none; background:url('https://dwrr4uupj8j1p.cloudfront.net/template/asset/images/btn_loading.gif') no-repeat 50% 20%; background-size:auto 52px; position:absolute; top:0;bottom:0;left:0;right:0; margin-top:auto; margin-bottom:auto; margin-left:auto; margin-right:auto; width:54px; height:54px; z-index: 100000;">
+				</div>
+			</div>
+			<div style="height: 15px">
+			</div>
+			<nav class="appindex_nav">
+				<ul>
+					<li><a id='nav_home' href='http://m.socar.kr/'>홈</a></li>
+					<li><a id='nav_reserve' href=http://m.socar.kr/reserve>예약하기</a></li>
+					<li><a id='nav_smartkey' href=http://m.socar.kr/user/smart_key>스마트키</a></li>
+					<li><a id='nav_mypage' href=http://m.socar.kr/mypage>마이페이지</a></li>
+				</ul>
+			</nav>
+
+			<script type="text/javascript">
+				history.back = function(){
+					if ($("#terms_view_layer").css("display") == "block") {
+						terms_view_layer_close();
+					} else {
+						var prev = document.referrer.match(/\/\/.*?\/(.*?)\/?(\?.*)?$/)[1];
+
+						history.go(-1);
+					}
+				}
+
+				var $total_price = parseInt('2000', 10);
+
+				var $org_price = 2000;
+
+				var $MAX_RESERVATION = 7200*60*1000;
+				var $MIN_RESERVATION = 30*60*1000;
+				var $MAX_DAYS = 90*24*60*60*1000;
+				var $MAX_DAYS_ONEWAY = 30*24*60*60*1000;
+
+		var oil_discount_start_at = '-32400'*1000;//이벤트기간 시작
+		var oil_discount_end_at = '-32400'*1000;//이벤트기간 종료
+		var oil_discount_distance = '0';//거리 km
+		var oil_discount_time = '0'*60*1000;//milli sec
+		var show_oil_discount = '';
+
+		var oil_price = 220;
+
+		//date format: 2013-08-13T18:10:00+09:00
+		var syear = '2016-12-15T02:10:00+09:00'.substring(0, 10).split('-');
+		var stime = '2016-12-15T02:10:00+09:00'.substring(11, 19).split(':');
+		var eyear = '2016-12-15T02:40:00+09:00'.substring(0, 10).split('-');
+		var etime = '2016-12-15T02:40:00+09:00'.substring(11, 19).split(':');
+
+		var ret_price = '2000';
+
+		var start_at = new Date(syear[0], parseInt(syear[1]-1,10), syear[2], stime[0], stime[1], stime[2]);
+		var end_at = new Date(eyear[0], parseInt(eyear[1]-1,10), eyear[2], etime[0], etime[1], etime[2]);
+
+		if (start_at.toString() === 'Invalid Date') start_at = new Date('2016-12-15T02:10:00+09:00');
+		if (end_at.toString() === 'Invalid Date') end_at = new Date('2016-12-15T02:40:00+09:00');
+
+		var post_data = {
+			way: 'round',
+			start_at: '2016-12-15T02:10:00+09:00',
+			end_at: '2016-12-15T02:40:00+09:00',
+			zone_name: '냉정역 1번출구',
+			zone_id: '642',
+			car_name: '미니쿠퍼',
+			car_num: '53허5518',
+			car_id: '2569',
+			day_count: '0',
+			waiting: 'false',
+			c_zone_id: '642',
+			class_id: '11',
+			c_zone_name: '',
+			reload: '',
+			is_d2d_able: '',
+			zone_props: '0',
+			max_reservation_minute: '7200',
+			min_reservation_minute: '30',
+			max_days_between_create_start: '90',
+			max_days_between_create_start_oneway: '30',
+			fuel: '휘발유',
+			reserve_complete_title_msg: '즐거운 드라이브 예약완료!',
+			reserve_complete_comment_msg: '쏘카와 함께 신나게 달려요!',
+			car_class: '11',
+		};
+
+		var zone_name = '냉정역 1번출구';
+
+		function number_format(yourNumber) {
+			var n= yourNumber.toString().split(".");
+			n[0] = n[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+			return n.join(".");
+		}
+
+		// Initiation Process
+		var hasTouch = 'ontouchstart' in document.documentElement;
+		var CLICK_EVENT = hasTouch ? 'touchend' : 'click';
+
+		$(document).ready(function(){
+			var $radioButtons = $('.js-radio-buttons');
+			var $discounts = $('.js-discounts');
+			var $protectionFeeSelect = $('#js-protection-fee-select');
+			var $protectionFeePrice = $('#js-protection-fee-price');
+			var $protectionFeePriceLabel = $('#js-protection-fee-price-label');
+			var $protectionFeeDescription = $('#js-protection-fee-description');
+			var $protectionFeeDescriptionClose = $('.js-protection-fee-description-close');
+			var $d2dRecommend = $('#d2d-recommend');
+			var $d2dRecommendClose = $('.d2d-recommend-close');
+
+			initiate();
+
+		  // HELPER FUNCTIONS
+		  function initiate() {  
+		  	var way_type_round = true;
+
+		  	var able = true;
+		  	var disable_message = null;
+		  	var notify_wait = false;
+
+		  	var able_start_at = false;
+		  	var able_end_at = false;
+
+		  	initTimeLine();
+		  	initDateTimePicker();
+		  	initCarAttribute();
+		  	initStandByReservation();
+		  	initInstantReservation();
+		  	initUseRules();
+		  	bindingEvents();
+
+		    // EVENT BINDINGS
+		    function bindingEvents() {
+		    	$('.complete').data('process', false);
+
+		      // 예약하기 버튼
+		      $('.complete').bind('click', onCompleteClick);
+
+		      // 예약 확인 팝업 닫기
+		      $('.mwLayer .close').bind('click', onMwLayerClose);
+
+		      // ??
+		      $('#check_reserve').bind('click', onCheckReserveClick);
+
+		      // ??
+		      $('#disable_btn').click(function() {
+		      	alert(disable_message ? disable_message : '해당 대여시간은 예약이 불가능합니다. 대여시간을 조정해 주세요!');
+		      });
+
+		      $protectionFeeSelect.change(onChangeProtectionFeeSelect);
+		      $protectionFeePrice.ready(onChangeProtectionFeeSelect);
+		      $protectionFeePriceLabel.click(openProtectionFeeDescription);
+		      $protectionFeeDescriptionClose.click(closeProtectionFeeDescription);
+		      $d2dRecommendClose.click(closeD2dRecommend);
+
+		      // DAYPASS 할인 버튼 클릭 이벤트 바인딩
+		      $('#layer-day-pass-open').click(toggleDisplayLayerDayPass);
+		      $('.layer-day-pass-close').click(toggleDisplayLayerDayPass);
+
+		      // 더미 플레이스 홀더 클릭
+		      $('.js-placeholder').click(onClickPlaceHolder)
+		    } // EVENT BINDINGS
+
+		    function initCarAttribute() {
+		    	var carAttr = "";
+		    	if (carAttr == null) {
+		    		return false;
+		    	}
+
+		    	var $style = $('#reservation.socar-list .car-model-name span');
+
+		    	switch (carAttr) {
+		    		case '신규':
+		    		$style.css({
+		    			'border-color': '#fd8900',
+		    			'color': '#fd8900'
+		    		});
+		    		break;
+		    		case '할인':
+		    		case '초특가할인':
+		    		$style.css({
+		    			'border-color': '#b42de9',
+		    			'color': '#b42de9'
+		    		});
+		    		break;
+		    		case '제로카':
+		    		$style.css({
+		    			'border-color': '#005fc8',
+		    			'color': '#005fc8'
+		    		});
+		    		default:
+		    	}
+		    }
+
+		    /**
+		      * 대기예약일 경우 상단 slidedownAlert 노출 & 요금내역 정보 숨김처리
+		      * able_start_at, able_end_at: timeline을 그릴 때 생성, 가능한 [예약시간]인지를 판단하는 변수
+		      */
+		      function initStandByReservation() {
+		      	var isStandByReservation = !able_start_at || !able_end_at;
+
+		      	if (isStandByReservation) {
+		      		$('.charge-info').hide();
+		      		$('.guide-use-rules-wrapper').hide();
+
+		      		var powerSource = 'GASOLINE';
+		      		if (powerSource === 'EV') {
+		      			$('.section_top_alert .txt').text('충전이 필요하거나, 이미 예약된 차량입니다.');
+		      		}
+		      		$('.section_top_alert').show();
+		      		slidedownAlert('.section_top_alert_red');
+		      	}
+		      }
+
+		      function slidedownAlert(target) {
+		      	$(target).animate({
+		      		top:'44'
+		      	},300,function(){
+		      		setTimeout(function(){
+		      			$(target).animate({top:'0'},300);
+		      		}, 10000);
+		      	});
+		      }
+
+		    // 즉시 예약일 경우 예약하기 버튼 문구 변경 2016.08.31 @tta
+		    function initInstantReservation() {
+		    	var ONE_MINUTES = 60 * 1000;
+		    	var currentTime = new Date().getTime();
+		    	var startTime = $('#startDay').mobiscroll('getDate').getTime();
+
+		    	if(startTime - currentTime < 10 * ONE_MINUTES) {
+		    		$('.rbtn_r input').val("예약 / 결제하기");
+		    	}
+		    }
+
+		    // way type에 따른 이융안내 & 페널티 문구 추가
+		    function initUseRules() {
+		    	var way = 'Array' ? 'round' : 'default';
+		    	var rules = getRule(way);
+		    	var penalties = getPenalty(way);
+
+		    	rules && rules.map(function (rule) {
+		    		var element = '<div class="dot">&middot;</div> <div class="rule">' + rule + '</div>';
+		    		$('.guide-use-rules-content.rule').prepend(element);
+		    	});
+		    	penalties && penalties.map(function (value) {
+		    		var element = '<div class="dot">&middot;</div> <div class="rule">' + value + '</div>';
+		    		$('.guide-use-rules-content.penalty').prepend(element);
+		    	});
+		    }
+
+		    function openProtectionFeeDescription() {
+		    	$protectionFeeDescription.show()
+		    }
+
+		    function closeProtectionFeeDescription() {
+		    	$protectionFeeDescription.hide()
+		    }
+
+		    function closeD2dRecommend() {
+		    	$d2dRecommend.hide()
+		    }
+
+		    function onChangeProtectionFeeSelect() {
+		    	var skipClassName = 'protection-fee-skip';
+		    	var protectionFee = getProtectionFee();
+		    	if (protectionFee > 0) {
+		    		$protectionFeePrice.text(number_format(protectionFee) + '원');
+		    		$protectionFeePrice.removeClass(skipClassName);
+		    	} else {
+		    		$protectionFeePrice.text('면제');
+		    		$protectionFeePrice.addClass(skipClassName);
+		    	}
+
+		    	applyDiscount(discountType);
+		    }
+
+		    /**
+		     * 레이어 요소의 visible 속성을 토글합니다.
+		     * @param {Object} elm - jQuery element
+		     */
+		     function toggleDisplayLayer(elm) {
+		     	if (elm.is(':visible')) {
+		     		return elm.hide();
+		     	}
+		     	return elm.show();
+		     }
+
+		    // DATE_TIME_SELECTOR
+		    function initDateTimePicker() {
+		    	var mobi_common_config = $.extend({
+		    		onSelect: function(value, inst) {
+		    			update_reservation_condition();
+		    			return false;
+		    		}
+		    	},$MOBI_COMMON);
+
+		    	var s_minDate = new Date();
+		    	var s_maxDate = new Date();
+		    	var e_minDate = new Date();
+		    	var e_maxDate = new Date();
+
+		    	if (way_type_round == true ) {
+		        // 왕복일때 날짜 설정
+		        s_minDate = new Date(new Date().getTime()+5*60*1000);
+		        s_maxDate = new Date((new Date()).getTime() + $MAX_DAYS);
+		        e_minDate = new Date(start_at.getTime()+$MIN_RESERVATION);
+		        e_maxDate = new Date((new Date()).getTime() + $MAX_DAYS);
+		    } else {
+		    	s_minDate.setTime(new Date().getTime()+5*60*1000);
+		        s_maxDate.setTime(new Date().getTime()+$MAX_DAYS_ONEWAY); // 한시간 이내 탑승.
+		        e_minDate.setTime(s_minDate.getTime()-10*60*1000);
+		        e_maxDate.setTime(s_minDate.getTime()+$MAX_DAYS_ONEWAY); // 120시간(5일) 내 반환
+		    }
+
+		    var startDayOption = $.extend({
+		    	minDate : new Date(s_minDate.getTime()),
+		    	maxDate : new Date(s_maxDate.getTime()),
+		    	onBeforeShow: function(html, inst) {
+		    		window.history.back = function() {
+		    			inst.cancel();
+		    		}
+		    	},
+		    	onClose: function(valueText, inst) {
+		    		window.history.back = function() {
+		    			window.history.go(-1);
+		    		}
+		    	}
+		    }, mobi_common_config);
+
+		    var endDayOption = $.extend({
+		    	minDate : new Date(e_minDate.getTime()),
+		    	maxDate : new Date(e_maxDate.getTime()),
+		    	onBeforeShow: function(html, inst) {
+		    		window.history.back = function() {
+		    			inst.cancel();
+		    		}
+		    	},
+		    	onClose: function(valueText, inst) {
+		    		window.history.back = function() {
+		    			window.history.go(-1);
+		    		}
+		    	}
+		    }, mobi_common_config);
+
+		    $('#startDay').mobiscroll().datetime(startDayOption);
+		    $('#endDay').mobiscroll().datetime(endDayOption);
+
+		    $('#startDay').mobiscroll('setDate', start_at, true);
+		    $('#endDay').mobiscroll('setDate', end_at, true);
+
+		    if (able) {
+		    	$('.able_btn_layer').show();
+		    	$('.notify_wait_btn_layer').hide();
+		    } else {
+		    	if (notify_wait) {
+		          // 편도일때 대기예약은 불가로 한다.
+		          $('.able_btn_layer').hide();
+		          $('.notify_wait_btn_layer').show();
+		          
+		          // alert("대여시간 조정 또는 대기예약을 해 주세요!");
+		      } else {
+		      	if (way_type_round == true) {
+		      		$('.able_btn_layer').hide();
+		      		$('.notify_wait_btn_layer').show();
+		      	} else {
+		            // spock 편도일때 대기예약은 불가로 한다.
+		            $('.able_btn_layer').hide();
+		            $('.notify_wait_btn_layer').hide();
+		            $('.disable_btn_layer').show();
+		            alert(disable_message ? disable_message : '해당 대여시간은 예약이 불가능합니다.\n대여시간을 조정해 주세요!');
+		        }
+		    }
+		}
+		    } // DATE_TIME_SELECTOR
+
+		    // TIMELINE
+		    function initTimeLine() {
+		    	$().timeline({
+		    		day_count : 0,
+		    		data : {"retCode":"1","retMsg":"","result":{"alternative_center_coords":{"lat":"35.151028","lng":"129.013397","zone_id":"642"},"rent_time":30,"loc":[{"zone_id":"642","attr":"2","attr_text":"[\ud560\uc778]","zone_name":"\ub0c9\uc815\uc5ed 1\ubc88\ucd9c\uad6c","lat":"35.151028","lng":"129.013397","distance":null,"region1":"\ubd80\uc0b0\uad11\uc5ed\uc2dc","region2":"\uc0ac\uc0c1\uad6c","region3":"\uc8fc\ub840\ub3d9","props":"0","pre_reservation_notice":"","detail":[{"car_id":"2569","car_name":"\ubbf8\ub2c8\ucfe0\ud37c","car_num":"53\ud5c85518","class_id":"11","car_nick":"\uc815\ubbf8\ub2c8","power_source":"GASOLINE","car_color":"","attr":"0","attr_text":"","oil_level":75,"last_washed_at":"2016-12-13","oil_level_condition":1,"washed_condition":2,"relay_nosmoke":0,"has_tcs":0,"is_sofam_or_test":false,"basic_price":"10500","oil_price":"220","display_oil_price":"0","oil_type":"\ud718\ubc1c\uc720","price":10500,"price_r":10500,"price_s":2000,"price_p":2000,"message":"","price_rate":null,"car_img":"\/car_image\/car11_n.png","able":true,"sale_car":"0","price_coupon":2000,"applicable_coupon":false,"abletimes":[["2016-12-15T01:30:00+09:00","2016-12-16T00:00:00+09:00"]],"times":[{"from":"2016-12-15T01:30:00+09:00","time":1350}]}],"able_num":1,"total_num":1,"d2d_deliverable":true}],"static_route":[],"static_route_cnt":0,"start_at":"2016-12-15T02:10:00+09:00","end_at":"2016-12-15T02:40:00+09:00","operator":false}}
+		    	});
+
+		    	var _able_from_to = ["2016-12-15T01:30:00+09:00","2016-12-16T00:00:00+09:00"];
+
+		    	var _able_from_year = _able_from_to[0].substring(0, 10).split('-');
+		    	var _able_from_time = _able_from_to[0].substring(11, 19).split(':');
+		    	var _able_from = new Date(_able_from_year[0], parseInt(_able_from_year[1]-1,10), _able_from_year[2], _able_from_time[0], _able_from_time[1], _able_from_time[2]);
+
+		    	var _able_to_year = _able_from_to[1].substring(0, 10).split('-');
+		    	var _able_to_time = _able_from_to[1].substring(11, 19).split(':');
+		    	var _able_to = new Date(_able_to_year[0], parseInt(_able_to_year[1]-1,10), _able_to_year[2], _able_to_time[0], _able_to_time[1], _able_to_time[2]);
+
+		            //var _able_from =  new Date(_able_from_to[0]);
+		            //var _able_to =  new Date(_able_from_to[1]);
+
+		            if(_able_from <= start_at && start_at <= _able_to){
+		            	able_start_at = true;
+		            }
+		            if(_able_from <= end_at && end_at <=_able_to){
+		            	able_end_at = true;
+		            }
+
+
+		            if(able_start_at && able_end_at && !able ) {
+		            	able_start_at  = false;
+		            	able_end_at = false;
+		            }
+
+		            if(!able_start_at) {
+		            	$('#startDay').css('color','#ff4265');
+		            }
+		            if(!able_end_at) {
+		            	$('#endDay').css('color','#ff4265');
+		            }
+		    } // TIMELINE
+		}
+
+		function applyDiscount(type) {
+			var way = "round";
+
+			switch (type) {
+				case 'coupon':
+				applyCoupon(way);
+				break;
+
+				case 't-membership':
+				applyTMembership(way);
+				validatePartnerVoucher();
+				break;
+
+				default:
+				applyOriginalPrice();
+				break;
+			}
+		}
+
+		function update_reservation_condition() {
+			$('#coupon_apply').trigger('click');
+			var period = $('#endDay').mobiscroll('getDate').getTime()-$('#startDay').mobiscroll('getDate').getTime();
+
+			if (period < $MIN_RESERVATION) {
+				alert('최소 대여 시간은 ' + $MIN_RESERVATION / 60 / 1000 +'분입니다.');
+				$('#endDay').mobiscroll('setDate',new Date($('#startDay').mobiscroll('getDate').getTime()+$MIN_RESERVATION),true);
+			} else if ( period > $MAX_RESERVATION) {
+				alert($MAX_RESERVATION / 60 / 60 / 1000 + '시간 이상은 고객센터(T.1661-3315)로 문의바랍니다.');
+				$('#endDay').mobiscroll('setDate',new Date($('#startDay').mobiscroll('getDate').getTime()+$MAX_RESERVATION),true);
+			}
+
+			$.extend(post_data,{
+				start_at : makeTimeFormat($('#startDay').mobiscroll('getDate')),
+				end_at : makeTimeFormat($('#endDay').mobiscroll('getDate'))
+			});
+
+			set_cookie('tmp_sDay', makeTimeFormat($('#startDay').mobiscroll('getDate')));
+			set_cookie('tmp_eDay', makeTimeFormat($('#endDay').mobiscroll('getDate')));
+
+			document.location.replace('?' + $.param(post_data));
+			return false;
+		}
+
+		var period = $('#endDay').mobiscroll('getDate').getTime()-$('#startDay').mobiscroll('getDate').getTime();
+		  //alert($('#endDay').mobiscroll('getDate').getTime());
+		  var s = new Date(oil_discount_start_at);
+		  var e = new Date(oil_discount_end_at);
+
+		  //반납시각 기준 적용기간내 + 존의 유류비 플래그 올라와 있을때
+		  if( '1' == show_oil_discount && $('#endDay').mobiscroll('getDate').getTime() >= s.getTime() && $('#endDay').mobiscroll('getDate').getTime() <= e.getTime()){
+		    //이용시간이 지정시간 이상
+		    if(period >= oil_discount_time){
+		    	$('#event_comment').css('display','block');
+		    	$('#display_oil_price').empty();
+		    	$('#display_oil_price').append('<strike>'+ oil_price +'원/km</strike> <em>'+ oil_discount_distance  + 'km까지 무료!</em>');
+		    }
+		    e.getTime() - s.getTime();
+		}
+
+		function applyOriginalPrice() {
+			$('#apply_price').text(number_format($total_price + getProtectionFee()) + '원');
+		}
+
+		  function onMwLayerClose() {
+		  	$('.mwLayer').removeClass('open');
+		  	elem_enable();
+		  	document.location.replace('http://m.socar.kr/user/smart_key');
+		  	return false;
+		  }
+
+		  function onCheckReserveClick () {
+		  	elem_enable();
+		  	var rsvid = $(this).data('rsvid');
+		  	var url = 'mypage/reserve';
+
+		  	if($.trim(rsvid) != ''){
+		  		url = 'mypage/reserve_detail/' + rsvid;
+		  	}
+
+		  	document.location.replace('https://m.socar.kr/' + url);
+
+		  	return false;
+		  }
+
+		  // 예약 클릭
+		  function onCompleteClick(evt) {
+		  	if( $("#is_agree").hasClass('on') == false ) {
+		  		alert("자동차대여약관과 이용약관에 동의해주세요.");
+		  		return false;
+		  	}
+
+		  	var coupon_policy_id = $.cookie('cp_policy_id');
+		  	if (632 == coupon_policy_id  || 664 == coupon_policy_id) {
+		  		var msg = "얼리쏘친 예약의 경우 다음날 오전 12시에 선결제되며\n결제 이후 취소하면 위약금 30%가 부과됩니다.\n위 내용에 동의하시면 [확인] 버튼을 눌러주세요.";
+		  		var result = confirm(msg);
+		  		if(false == result){
+		  			return;
+		  		}
+		  	} else {
+		  		var userName = '예약자 : 하상원님\n\n';
+		  		var confirm_txt = '예약 및 결제내역을 확인하셨나요?\n[확인]버튼을 누르면 예약이 완료됩니다.';
+		  		var now_time = new Date().getTime();
+
+		  		if($('#startDay').mobiscroll('getDate').getTime() - now_time < 60 * 10 * 1000){
+		  			var confirm_txt = '예약과 동시에 결제되어 취소가 "불가"합니다.\n지금 바로 쏘카 이용을 원하신다면 [확인]을 눌러주세요.';
+		  		}
+
+		  		confirm_txt = userName + confirm_txt;
+
+		  		if(!confirm(confirm_txt)) {
+		  			return false;
+		  		}
+		  	}
+
+		  	if($('body').data('process')){
+		  		alert('예약 처리 중입니다. 잠시만 기다려 주세요.');
+		  		return false;
+		  	}
+
+		  	$('body').data('process',true);
+		  	var coupon_code = $.cookie('cp_num');
+
+		  	$('#indicator').css('display','block');
+
+		  	$.ajax({
+		  		type: 'GET',
+		  		url: "https://api.socar.kr/reserve/complete",
+		  		crossDomain: true,
+		  		data: {
+		  			auth_token: $.cookie('auth_token'),
+		  			from: 'mobile',
+		  			way: 'round',
+		  			start_at: '2016-12-15T02:10:00+09:00',
+		  			end_at: '2016-12-15T02:40:00+09:00',
+		  			car_id: '2569',
+		        discount_type: discountType, // one of [ 'coupon', 't-membership', '' or null ]
+		        coupon_code: coupon_code,
+		        c_zone_id: '642',
+		        q_zone_id: $.cookie('q_zone_id'),
+		        q_zone_name: $.cookie('q_zone_name'),
+		        agree_smoke: '1',        
+		        deductible_type: $protectionFeeSelect.val(), 
+		        zone_id: '642',
+		        billing_id: $("#billings").val()        
+		    },
+		    dataType: 'jsonp',
+		    success: function(json){
+		    	$('#indicator').css('display','none');
+
+		    	if (json['retCode'] == 1) {
+		    		$("#check_reserve").data('rsvid',json['result']['id']);
+		    		$('.mwLayer').addClass('open');
+
+		          // 첫 예약을 시도한 사용자 트래킹
+		          var is_first_reserve = "";
+		          if(is_first_reserve) {
+		          	fbq('track', 'AddToCart');
+		          }
+
+		          if (typeof appboy !== 'undefined') {
+		          	appboy.logCustomEvent('created_reservation', {
+		          		time : new Date(),
+		          		car_name : '미니쿠퍼',
+		          		region1 : '부산광역시',
+		          		region2 : '사상구',
+		          		region3 : '주례동',
+		          		zone_name : '냉정역 1번출구'
+		          	});
+		          }
+
+		          history.back = function() {
+		          	$('.mwLayer .close').click();
+		          	return true;
+		          }
+		          elem_disable();
+		      } else {
+		      	alert(json['retMsg'] + ' 코드 : ' + json['retCode']);
+		      }
+
+		      $('body').data('process',false);
+
+		        if (window.tagManagerDataLayer !== undefined) {
+		        	window.tagManagerDataLayer.push({
+		        		event: 'reservation_done',
+		        		reservation_id: json['result']['id'],
+		        		way: 'round',
+		        		start_at: '2016-12-15T02:10:00+09:00',
+		        		end_at: '2016-12-15T02:40:00+09:00',
+		        		car_id: '2569',
+		        		discount_type: discountType,
+		        		coupon_code: coupon_code,
+		        		c_zone_id: '642',
+		        		q_zone_id: $.cookie('q_zone_id'),
+		        		q_zone_name: $.cookie('q_zone_name'),            
+		        		deductible_type: $protectionFeeSelect.val(),          
+		        		zone_id: '642',            
+		        	});
+		        }
+		    },
+		    error: function(){
+		    	$('#indicator').css('display','none');
+		    	alert('일시적인 오류로 예약을 완료하지 못했습니다. 잠시 후 다시 시도해 주세요.');
+		    	$('body').data('process',false);
+		    }
+		});
+
+		  	return false;
+		  }
+
+		  function onClickPlaceHolder () {
+		  	$(this).hide();
+		  	$('.js-input-sixteen-digit').focus();
+		  }
+
+		  function getProtectionFee() {
+		  	var deductibleType = $protectionFeeSelect && $protectionFeeSelect.val();
+		  	var deductibleItems = {};
+
+		  	deductibleItems[30] = parseInt(950, 10);    
+		  	deductibleItems[70] = parseInt(840, 10);
+
+		  	return deductibleType ? deductibleItems[deductibleType] : 0;
+		  } //
+		});
+	</script>
+</html>

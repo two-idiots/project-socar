@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html ng-app="reserve">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0" />
+	<title>카셰어링 No.1 쏘카</title>
+
+	<!-- <link rel="stylesheet" type="text/css" href='https://dwrr4uupj8j1p.cloudfront.net/template/asset/css/socar_new.css?v=20161214'/> -->
+	<link rel="stylesheet" type="text/css" href='template/asset/css/socar_new.css'/>
+	<link rel="stylesheet" type="text/css" href="template/asset/css/confirm.css">
+
+	<script type="text/javascript" src='https://dwrr4uupj8j1p.cloudfront.net/template/asset/js/minified/jquery-1.8.3.min.js'></script>
+	<script type="text/javascript" src='https://dwrr4uupj8j1p.cloudfront.net/template/asset/js/minified/jquery.cookie.min.js?v=013'></script>
+	<script type="text/javascript" src='https://dwrr4uupj8j1p.cloudfront.net/template/asset/js/minified/jquery.dotdotdot-1.5.9.min.js'></script>
+	<script type="text/javascript" src='https://dwrr4uupj8j1p.cloudfront.net/template/asset/js/minified/jquery-easing.js'></script>
+	<script type="text/javascript" src='https://dwrr4uupj8j1p.cloudfront.net/template/asset/js/common.js?v=20161213-1'></script>
+	<script type="text/javascript" src='https://dwrr4uupj8j1p.cloudfront.net/template/asset/js/minified/json2.min.js?v=20140204'></script>
+	<script type="text/javascript" src='https://dwrr4uupj8j1p.cloudfront.net/template/asset/js/minified/fastclick.min.js?v=20150105'></script>
+	<script type="text/javascript" src='https://dwrr4uupj8j1p.cloudfront.net/template/asset/js/ssun.js?v=20151220'></script>  
+
+	<script type="text/javascript" src="https://dwrr4uupj8j1p.cloudfront.net/template/asset/js/mobiscroll.core-2.4.5.js?v=2"></script>
+	<script type="text/javascript" src="https://dwrr4uupj8j1p.cloudfront.net/template/asset/js/mobiscroll.datetime-2.4.5.js"></script>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+	<script src="template/js/header.js"></script>
+	<script>
+		/**
+		* reserve Module
+		*
+		* Description
+		*/
+		angular.module('reserve', ['header'])
+		.controller('mainController', ['$scope', function($scope){
+			$scope.name = "왕복예약";
+			$scope.$watch('$viewContentLoaded', function(){
+				var timerGetRolling     = null;
+				var $MAX_RESERVATION = 7200*60*1000;
+				var $MIN_RESERVATION = 30*60*1000;
+				var $MAX_DAYS = 90*24*60*60*1000;
+				var $MAX_DAYS_ONEWAY = 30*24*60*60*1000;
+
+				var startDay = angular.element($('#startDay'));
+				var endDay = angular.element($('#endDay'));
+				var rentTime = angular.element($('#rent_time'));
+
+				//반납일 - 대여일 시간 구하기
+				function getRentTime (sDate, eDate) {
+					return (eDate.getTime() - sDate.getTime()) / 1000 / 60 ;
+				}
+
+				function set_time_controll(){
+					var now = new Date();
+					var s_newDate = new Date();
+					var e_newDate = new Date();
+
+					var s_minDate = new Date();
+					var s_maxDate = new Date();
+					var e_minDate = new Date();
+					var e_maxDate = new Date();					
+
+					s_newDate.setTime(now.getTime() + 10 * 60 * 1000);
+					e_newDate.setTime(s_newDate.getTime() + $MIN_RESERVATION);
+
+					s_minDate.setTime(s_newDate.getTime()-10*60*1000);
+					s_maxDate.setTime(s_newDate.getTime()+$MAX_DAYS);
+					e_minDate.setTime(e_newDate.getTime()-10*60*1000);
+					e_maxDate.setTime(e_newDate.getTime()+$MAX_DAYS);					
+
+					//mobiscroll 세팅
+					startDay.mobiscroll().datetime(
+						$.extend({
+							minDate: new Date(s_minDate.getTime()),
+							maxDate : new Date(s_maxDate.getTime()),
+							onSelect: function(value, inst) {
+								var _s = startDay.mobiscroll('getDate');
+								var _e = endDay.mobiscroll('getDate');
+								set_cookie('tmp_sDay', _s);
+
+								if(_e.getTime() - _s.getTime() < $MIN_RESERVATION ) {
+									endDay.mobiscroll('setDate', new Date(_s.getTime() + $MIN_RESERVATION), true);
+								}
+
+								rent_time.text(rent_time(endDay.mobiscroll('getDate')-startDay.mobiscroll('getDate')));
+
+								return false;
+							},
+							onBeforeShow: function(html, inst) {
+								window.history.back = function() {
+									inst.cancel();
+								}
+							},
+							onClose: function(valueText, inst) {
+								window.history.back = function() {
+									window.history.go(-1);
+								}
+							}
+						}, $MOBI_COMMON)
+					);
+
+					endDay.mobiscroll().datetime(
+						$.extend({
+							minDate: new Date(e_minDate.getTime()),
+							maxDate : new Date(e_maxDate.getTime()),
+							onSelect: function(value, inst) {
+								set_cookie('tmp_eDay', endDay.mobiscroll('getDate'));
+								rent_time.text(rent_time(endDay.mobiscroll('getDate')-startDay.mobiscroll('getDate')));
+								return false;
+							},
+							onBeforeShow: function(html, inst) {
+								window.history.back = function() {
+									inst.cancel();
+								}
+							},
+							onClose: function(valueText, inst) {
+								window.history.back = function() {
+									window.history.go(-1);
+								}
+							}
+						}, $MOBI_COMMON)
+					);
+
+					//기본 표시 시간 설정
+					startDay.mobiscroll('setDate', s_newDate, true);
+					endDay.mobiscroll('setDate', e_newDate, true);
+				}
+
+				var initialize_reservation_time_zone = function() {
+					set_time_controll();
+
+					rentTime.text(rent_time(endDay.mobiscroll('getDate')-startDay.mobiscroll('getDate')));
+					return true;
+				}
+
+				//쿠키값을 못 읽어와서 오류나는 문제를 위해 잠깐 기다려서 실행
+				setTimeout(initialize_reservation_time_zone, 300);
+
+				var hasTouch = 'ontouchstart' in document.documentElement,
+				CLICK_EVENT = hasTouch ? 'touchend' : 'click';
+
+				$('#search').bind('click', function(){
+					if(startDay.val() == ''){
+						alert('대여일을 선택해주세요.');
+						return false;
+					}
+					else if(endDay.val() == ''){
+						alert('반납일을 선택해주세요.');
+						return false;
+					}
+
+					//사용자 입력 시간
+					var sTmp = startDay.mobiscroll('getDate');
+					var eTmp = endDay.mobiscroll('getDate');
+
+					if( sTmp < new Date()) {
+						alert('대여일이 과거 시간입니다. 대여일을 확인해 주세요.');
+						return false;
+					}
+
+					if( sTmp >= eTmp ) {
+						alert('반납일이 대여일보다 과거시간 입니다. 반납일을 확인해 주세요.');
+						return false;
+					}
+
+					//총 대여시간 구하기
+					var rentTime = getRentTime(sTmp, eTmp);
+					if(rentTime * 60 * 1000 < $MIN_RESERVATION) {
+						alert('최소 대여기간은 '+$MIN_RESERVATION/60/1000+'분 입니다. 대여기간을 확인해 주세요.');
+						return false;
+					} else if(rentTime * 60 * 1000 > $MAX_RESERVATION ){
+						var _max_hour = 	$MAX_RESERVATION / 60 / 60 / 1000;
+						alert('최대 대여기간은 ' + _max_hour + '시간입니다. ' + _max_hour +'시간 이상 예약은 고객센터(1661-3315)로 문의해 주세요.');
+						return false;
+					}
+
+					//ISO8601 Format
+					var startDay = makeTimeFormat(sTmp);
+					var endDay   = makeTimeFormat(eTmp);
+
+					//대여 일수 구하기
+					//var sCount   = sTmp.getDate();
+					//var eCount   = eTmp.getDate();
+					//var dayCount = eCount - sCount;
+
+					//day(일) 값으로만 대여일수를 계산하여, 월이 바뀔경우 마니어스 값이 나옴.
+					//timestamp 값을 이용한 비교로 변경. by smartNHW
+					var sTime = new Date(sTmp.getFullYear(), sTmp.getMonth(), sTmp.getDate());
+					var eTime = new Date(eTmp.getFullYear(), eTmp.getMonth(), eTmp.getDate());
+
+					sTime = sTime.getTime();
+					eTime = eTime.getTime();
+
+					var dayCount = Math.round((eTime - sTime)/1000/60/60/24);
+				});
+
+				function set_reservation_time_recipe(){
+					//사용자 입력 시간
+					var sTmp = startDay.mobiscroll('getDate');
+					var eTmp = endDay.mobiscroll('getDate');
+
+					if( sTmp < new Date()) {
+						alert('대여일이 과거 시간입니다. 대여일을 확인해 주세요.');
+						return false;
+					}
+
+					if( sTmp >= eTmp ) {
+						alert('반납일이 대여일보다 과거시간 입니다. 반납일을 확인해 주세요.');
+						return false;
+					}
+
+					//총 대여시간 구하기
+					var rentTime = getRentTime(sTmp, eTmp);
+
+					if(rentTime * 60 * 1000 < $MIN_RESERVATION) {
+						alert('최소 대여기간은 '+$MIN_RESERVATION/60/1000+'분 입니다. 대여기간을 확인해 주세요.');
+						return false;
+					} else if(rentTime * 60 * 1000 > $MAX_RESERVATION ){
+						var _max_hour = 	$MAX_RESERVATION / 60 / 60 / 1000;
+						alert('최대 대여기간은 ' + _max_hour + '시간입니다. ' + _max_hour +'시간 이상 예약은 고객센터(1661-3315)로 문의해 주세요.');
+						return false;
+					}
+
+					rent_time.text(rent_time(endDay.mobiscroll('getDate')-startDay.mobiscroll('getDate')));
+					return true;
+				}
+			});			
+		}]);
+	</script>
+</head>
+
+
+<!--
+<body id="reservation" class="index">
+-->
+<body id="reservation" class="reserve_new" ng-controller="mainController">
+	<link rel="stylesheet" type="text/css" href="https://dwrr4uupj8j1p.cloudfront.net/template/asset/css/mobiscroll.custom-2.4.5.min.css" />
+
+	<!-- <style>
+		.header-expanded{height: 54px;}
+		.rsrv-tab-set{background-color:#0098d4;color:#fff;display:block;height:32px;margin:6px 50px;overflow:hidden}
+		.rsrv-tab-set.left-margin{margin-left:50px}
+		.rsrv-tab-set-item:last-child {border-right:0;width:100%;}
+		.rsrv-tab-set-item{background-color: #00b6e8;float:left;width:33.3%;border-right:1px solid #00d2ff;box-sizing: border-box;-moz-box-sizing: border-box;-webkit-box-sizing: border-box;}
+		.rsrv-tab-set-item .link{background-color:#fff;color:#00d2ff}
+		.rsrv-tab-set-item .link{color:#00d2ff;display:block;font-size:14px;height:34px;line-height:32px;text-align:center;width:100%}
+	</style> -->
+	<!-- header -->
+	<!-- <header class="">
+		<ul class="rsrv-tab-set">
+			<li class="rsrv-tab-set-item js-twoway"><p class="link">왕복예약</a></li>    
+		</ul>	
+	</header> -->
+	<my-header title="name"></my-header>
+	<div id="contents">
+		<section>
+			<h2>예약 일정</h2>
+			<div class="bx">
+				<dl>
+					<dt><span>대여일</span></dt>
+					<dd>
+						<input class="needsclick" style="border:0px;background-color:transparent;" id="startDay" href="#" placeholder="대여일을 선택해주세요" />
+					</dd>
+				</dl>
+				<dl>
+					<dt><span>반납일</span></dt>
+					<dd>
+						<input class="needsclick" style="border:0px;background-color:transparent;" id="endDay" href="#" placeholder="반납일을 선택해주세요" />
+					</dd>
+				</dl>
+				<dl>
+					<dt><span>대여기간</span></dt>
+					<dd>
+						<span id='rent_time' style='color:#ff4265;font-weight:normal;'></span>
+					</dd>
+				</dl>
+			</div>
+		</section>
+		<div class="rbtn"><input id="search" type="submit" value="쏘카 찾기" /></div>
+	</div>
+</div>
+<nav class="appindex_nav">
+	<ul>
+		<li><a id='nav_home' href='http://m.socar.kr/'>홈</a></li>
+		<li><a id='nav_reserve' href=http://m.socar.kr/reserve>예약하기</a></li>
+		<li><a id='nav_smartkey' href=http://m.socar.kr/user/smart_key>스마트키</a></li>
+		<li><a id='nav_mypage' href=http://m.socar.kr/mypage>마이페이지</a></li>
+	</ul>
+</nav>
+</body>
+</html>

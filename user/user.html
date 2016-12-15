@@ -21,16 +21,21 @@
 			*/
 			angular.module('sampleApp', [])
 			.controller('mainController', ['$scope', '$http', '$window', function($scope, $http, $window){
+
 				$scope.login = function(event, vaild, id, pw){
 					// 이메일 유효성 검사
 					if(vaild){
 						if(event.type==='click' || (event.type==='keydown' && event.keyCode === 13)){
 							// 클릭, 엔터 누를 시 로그인
 							var temp = {username : id, password : pw};
-
-							$http.post('http://10.1.70.107:3000/auth/login', temp).success(function(res){
+							console.log(temp);
+							console.log("C");
+							$http.post('http://10.1.65.64:3000/auth/login', temp).success(function(res){
+								console.log("D");
 								$window.location.href = 'reserve.html';
 							}).error(function(res){
+	
+						console.log("F");
 								alert("이메일과 비밀번호를 확인하세요");
 							});
 						}

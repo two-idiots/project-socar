@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="carInfo">
+<head>
+	<meta charset="utf-8" />  
+	<meta name="viewport" content="initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0" />
+
+	<title>카셰어링 No.1 쏘카</title>
+	<link rel="stylesheet" type="text/css" href='../template/asset/css/socar_new.css'/>
+	<link rel="stylesheet" type="text/css" href="../template/asset/css/confirm.css">
+
+	<script type="text/javascript" src='https://dwrr4uupj8j1p.cloudfront.net/template/asset/js/minified/jquery-1.8.3.min.js'></script>
+	<script type="text/javascript" src='https://dwrr4uupj8j1p.cloudfront.net/template/asset/js/minified/jquery.cookie.min.js?v=013'></script>
+	<script type="text/javascript" src='https://dwrr4uupj8j1p.cloudfront.net/template/asset/js/minified/jquery.dotdotdot-1.5.9.min.js'></script>
+	<script type="text/javascript" src='https://dwrr4uupj8j1p.cloudfront.net/template/asset/js/minified/jquery-easing.js'></script>
+	<script type="text/javascript" src='https://dwrr4uupj8j1p.cloudfront.net/template/asset/js/common.js?v=20161213-1'></script>
+	<script type="text/javascript" src='https://dwrr4uupj8j1p.cloudfront.net/template/asset/js/minified/json2.min.js?v=20140204'></script>
+	<script type="text/javascript" src='https://dwrr4uupj8j1p.cloudfront.net/template/asset/js/minified/fastclick.min.js?v=20150105'></script>
+
+	<script type="text/javascript" src='https://dwrr4uupj8j1p.cloudfront.net/template/asset/js/ssun.js?v=20151220'></script>
+	<script type="text/javascript" src="template/reservation/../asset/js/iscroll.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+	<script src="../template/js/header.js"></script>
+	<script>
+			/**
+			* carInfo Module
+			*
+			* Description
+			*/
+		angular.module('carInfo', ['header'])
+		.controller('mainController', ['$scope', '$http', function($scope, $http){
+			$scope.name = '차량 정보';
+			$scope.$watch('$viewContentLoaded', function(){
+				$http.post('http://10.1.65.64:3000/reserve/car_info',{car : '모닝'}).success(function(docs){
+					console.log(docs);
+					$scope.carInfo = docs;
+				}).error(function(docs){
+					console.log(docs);
+					console.log("error : " + docs);
+				});
+			});
+		}])
+	</script>
+	</head>
+	<body id="reservation" ng-controller="mainController" class="socarzon">
+		<my-header title='name'></my-header>
+		<div id="contents">
+			<section class="car-detail">
+				<div id="scroller_wrapper">
+					<div id="scroller">
+						<ul id="thelist">
+							<li><img src="../template/asset/images/car_image/{{carInfo[0].basicOp.image}}" alt="" /></li>
+						</ul>
+					</div>
+				</div>
+			</section>
+			<section>
+				<h2>기본제원</h2>
+				<table cellspacing="0" summary="">
+					<tr>
+						<th><p>차명</p></th>
+						<td><p><strong>{{carInfo[0].basicOp.car_name}}</strong></p></td>
+					</tr>
+					<tr>
+						<th><p>제조사</p></th>
+						<td><p>{{carInfo[0].basicOp.automaker}}</p></td>
+					</tr>
+					<tr>
+						<th><p>차종 / 외관</p></th>
+						<td><p>{{carInfo[0].basicOp.car_outside}}</p></td>
+					</tr>
+					<tr>
+						<th><p>연료</p></th>
+						<td><p>{{carInfo[0].basicOp.oil_type}}</p></td>
+					</tr>
+					<tr>
+						<th><p>변속방식</p></th>
+						<td><p>{{carInfo[0].basicOp.gear_type}}</p></td>
+					</tr>
+					<tr>
+						<th><p>승차정원</p></th>
+						<td><p>{{carInfo[0].basicOp.capavity}}</p></td>
+					</tr>
+				</table>
+			</section>
+			<section>
+				<h2>옵션정보</h2>
+				<table cellspacing="0" summary="">
+					<tr>
+						<th><p>안전옵션</p></th>
+						<td>
+							<p>
+								<span ng-repeat="option in carInfo[1].safety">{{option}}</span>								
+							</p>
+						</td>
+					</tr>
+					<tr>
+						<th><p>편의옵션</p></th>
+						<td>
+							<p>
+								<span ng-repeat="option in carInfo[2].convenience">{{option}}</span>
+							</p>
+						</td>
+					</tr>
+				</table>
+			</section>
+			<section>
+				<h2>요금</h2>
+				<table cellspacing="0" summary="">
+					<tr>
+						<th><p>기본요금</p></th>
+						<td><p>{{carInfo[0].basicOp.basic_charge}}</p></td>
+					</tr>
+					<tr>
+						<th><p>주행요금</p></th>
+						<td><p>{{carInfo[0].basicOp.driving_charge}}</p></td>
+					</tr>
+				</table>
+			</section>
+		</div>
+	</body>
+</html>
