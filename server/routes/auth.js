@@ -117,7 +117,7 @@ module.exports = function(app) {
         var user = results[0];
         return hasher({password: pwd, salt: user.salt}, function(err, pass, salt, hash) {
           if(hash == user.password) {
-            req.session.displayName = user.user_name;
+            req.session.displayName = user.user_id;
             console.log('로그인 성공!');
             res.json('0');
             // res.redirect('/home');

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Rental</title>
+  </head>
+  <body>
+    <h3>예약페이지</h3>
+    <form action="/new_data/rental" method="post">
+      <h1>예약 일정</h1>
+      <p>
+        대여일 <input type="text" name="rentalDate" placeholder="대여일 입력하세요.">
+      </p>
+      <p>
+        반납일 <input type="text" name="dueDate" placeholder="반납일을 입력하세요.">
+      </p>
+      <h1>지역/차종</h1>
+      <p>
+        지역 <input type="text" name="areaName" placeholder="지역을 입력하세요.">
+      </p>
+      <p>
+        차명 <input type="text" name="carName" placeholder="차명을 입력하세요.">
+      </p>
+      <p>
+        <input type="submit" value="등록">
+      </p>
+    </form>
+  </body>
+</html>

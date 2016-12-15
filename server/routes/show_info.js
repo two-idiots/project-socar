@@ -69,7 +69,6 @@ module.exports = function(app) {
 
   route.post('/socar_info', function(req, res) {
     var areaName = req.body.areaName;
-    console.log(areaName);
 
     var sql = 'SELECT szc.car_name, szc.car_num, szc.nick_name, a.area_name, latitude, longitude FROM socar_zone_car szc, area a WHERE szc.area_name = ? and szc.area_name = a.area_name';
 
@@ -80,13 +79,39 @@ module.exports = function(app) {
           console.log('에러 발생!');
           //res.redirect('/reserve/car_info');
         } else {
-          console.log(results);
+          var socarZoneCars = {
+            areaName : results[0].area_name,
+            socarInfo : []
+          }
+          for(var i in results) {
+            delete results[i].area_name;
+            socarZoneCars.socarInfo.push(results[i]);
+          }
         }
-      res.json(results);
+      res.json(socarZoneCars);
     });
-
   });
 
+
+  /////////////////////////예약정보 가져오기/////////////////////////
+  route.get('/rental_info', function(req, res) {
+    res.render('reserve/rental_info');
+  });
+
+  route.post('/rental_info', function(req, res) {
+    var sql = 'SELECT * FROM rental_info WHERE user_id = ?';
+    conn.query(sql, req.session.displayName, function(err, results) {
+      if(err) {
+          console.log(err);
+          res.status(500);
+          console.log('에러 발생!');
+          //res.redirect('/reserve/car_info');
+        } else {
+          console.log(results);
+          res.redirect('/rental_info');
+        }
+    });
+  });
 
   return route;
 }

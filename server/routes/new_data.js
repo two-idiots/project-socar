@@ -251,5 +251,50 @@ module.exports = function(app) {
       }
     });
   });
+
+
+    /////////////////////////예약정보 등록/////////////////////////
+    route.get('/rental', function(req, res) {
+      res.render('new_data/rental');
+    });
+
+    route.post('/rental', function(req, res) {
+      var rentalData = {
+        rental_date: req.body.rentalDate,
+        due_date: req.body.dueDate,
+        area_name: req.body.areaName,
+        car_name: req.body.carName,
+        user_id: req.session.displayName,
+      }
+
+      var sqlCarNum = 'SELECT car_num FROM socar_zone_car WHERE car_name = ? and area_name = ?';
+
+      conn.query(sqlCarNum, [rentalData.car_name, rentalData.area_name], function(err, results1) {
+        if(err) {
+            console.log(err);
+            res.status(500);
+            console.log('에러 발생!');
+            //res.redirect('/reserve/car_info');
+          } else {
+            rentalData.car_num = results1[0].car_num;
+
+            var sqlInsertRentalData = 'INSERT INTO rental_info SET?';
+
+            conn.query(sqlInsertRentalData, rentalData, function(err, results2) {
+              if(err) {
+                  console.log(err);
+                  res.status(500);
+                  console.log('에러 발생!');
+                  //res.redirect('/reserve/car_info');
+                } else {
+                  console.log('예약 성공!');
+                  res.redirect('/home');
+                }
+            });
+          }
+      });
+    });
+
+
   return route;
 }
