@@ -4,6 +4,7 @@ var auth = require('./routes/auth')(app);
 var option = require('./routes/option')(app);
 var new_data = require('./routes/new_data')(app);
 var show_info = require('./routes/show_info')(app);
+var fs = require('fs');
 
 app.use('/', home);
 app.use('/', option);
@@ -13,6 +14,17 @@ app.use('/reserve', show_info);
 
 app.get('/', function(req, res) {
   res.send('Hello, socar!');
+});
+
+app.get('/main', function(req, res) {
+  fs.readFile('../client/views/mainTest.html', function(err, data) {
+    if(err) {
+      console.log(err);
+    } else {
+      res.writeHead(200, { 'Content-Type': 'text/html' });
+      res.end(data);
+    }
+  });
 });
 
 app.get('/test', function(req, res){

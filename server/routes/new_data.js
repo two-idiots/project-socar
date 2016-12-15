@@ -224,5 +224,32 @@ module.exports = function(app) {
   });
 
 
+  /////////////////////////쏘카존 자동차 등록/////////////////////////
+  route.get('/socar', function(req, res) {
+    res.render('new_data/socar');
+  });
+
+  route.post('/socar', function(req, res) {
+    var socar = {
+      area_name: req.body.areaName,
+      car_name: req.body.carName,
+      car_num: req.body.carNum,
+      nick_name: req.body.nickName,
+    }
+
+    var sql = 'INSERT INTO socar_zone_car SET?';
+
+    conn.query(sql, socar, function(err, results) {
+      if(err) {
+        console.log(err);
+        res.status(500);
+        console.log('에러 발생!');
+        res.redirect('/new_data/socar');
+      } else {
+        console.log('쏘카존 차량 등록 완료!');
+        res.redirect('/home');
+      }
+    });
+  });
   return route;
 }

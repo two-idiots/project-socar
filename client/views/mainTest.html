@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+	<script>
+		/**
+		* app Module
+		*
+		* Description
+		*/
+		angular.module('app', [])
+		.controller('mainController', ['$scope', '$http', function($scope, $http){
+			var value = {car_name : '레이'};
+
+			$scope.result = '';
+
+			$scope.postClick = function(){
+				$http.post('/car_info', value).success(function(docs){
+					$scope.result = docs;
+				}).error(function(err){
+					$scope.result = err;
+				});
+			}
+
+			$scope.getClick = function(){
+				$http.get('/test').success(function(docs){
+					$scope.result = docs;
+				}).error(function(err){
+					$scope.result = err;
+				});
+			}
+		}])
+	</script>
+</head>
+<body ng-controller="mainController">
+	<button ng-click="postClick()">Post</button>
+	<button ng-click="getClick()">Get</button>
+	<h1>{{result}}</h1>
+</body>
+</html>

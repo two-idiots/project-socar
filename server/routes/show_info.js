@@ -2,6 +2,8 @@ module.exports = function(app) {
   var conn = require('../config/db')();
   var route = require('express').Router();
 
+
+/////////////////////////CAR 정보 가져오기/////////////////////////
   route.get('/car_info', function(req, res) {
     res.render('reserve/car_info', {keyResults: [{carResults: undefined}]});
   });
@@ -58,5 +60,33 @@ module.exports = function(app) {
         }
     });
   });
+
+
+/////////////////////////쏘카존 자동차 가져오기/////////////////////////
+  route.get('/socar_info', function(req, res) {
+    res.render('reserve/socar_info');
+  });
+
+  route.post('/socar_info', function(req, res) {
+    var areaName = req.body.areaName;
+    console.log(areaName);
+
+    var sql = 'SELECT szc.car_name, szc.car_num, szc.nick_name, a.area_name, latitude, longitude FROM socar_zone_car szc, area a WHERE szc.area_name = ? and szc.area_name = a.area_name';
+
+    conn.query(sql, areaName, function(err, results) {
+      if(err) {
+          console.log(err);
+          res.status(500);
+          console.log('에러 발생!');
+          //res.redirect('/reserve/car_info');
+        } else {
+          console.log(results);
+        }
+      res.json(results);
+    });
+
+  });
+
+
   return route;
 }
