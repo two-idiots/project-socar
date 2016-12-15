@@ -4,10 +4,6 @@ module.exports = function(app) {
   route.get('/home', function(req, res) {
     var username = req.session.displayName;
 
-    var user = {
-      name: username,
-    };
-
     if(username) {
       res.render('home', {user: {name: username}});
     } else {

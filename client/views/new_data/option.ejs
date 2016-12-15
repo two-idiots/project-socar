@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Add Option</title>
+  </head>
+  <body>
+    <h3>차량옵션 등록</h3>
+    <form action="/new_data/option" method="post">
+      <p>안전옵션</p>
+      safety_id <input type="text" name="safetyId" placeholder="safety_id to DB">
+      safety_name <input type="text" name="safetyName" placeholder="safety_name to DB">
+      <input type="submit" value="등록">
+    </form>
+    <form action="/new_data/option" method="post">
+      <p>편의옵션</p>
+      convenience_id <input type="text" name="convenienceId" placeholder="convenience_id to DB">
+      convenience_name <input type="text" name="convenienceName" placeholder="convenience_name to DB">
+      <input type="submit" value="등록">
+    </form>
+  </body>
+</html>

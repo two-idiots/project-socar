@@ -1,0 +1,128 @@
+<!-- <!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Car Information</title>
+  </head>
+  <body>
+    <div>
+      <section>
+        <form action="/reserve/car_info" method="post">
+          <select name="car">
+            <option value="">자동차 선택</option>
+            <option value="a">a</option>
+            <input type="submit" value="선택">
+          </select>
+        </form>
+      </section>
+      <% if(row.basicOp == undefined) {  %>
+        <h2>자동차를 선택해주세요!</h2>
+      <% } else if(row.basicOp != undefined) { %>
+        <section>
+          <div></div>
+          <h2>기본제원</h2>
+          <table>
+            <tbody>
+              <tr>
+                <th>
+                  <p>차명</p>
+                </th>
+                <td>
+                  <p>
+                    <strong><%=row.basicOp.car_name%></strong>
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <th>
+                  <p>제조사</p>
+                </th>
+                <td>
+                  <p><%=row.basicOp.automaker%></p>
+                </td>
+              </tr>
+              <tr>
+                <th>
+                  <p>차종 / 외관</p>
+                </th>
+                <td>
+                  <p><%=row.basicOp.car_model%> / <%=row.basicOp.car_outside%></p>
+                </td>
+              </tr>
+              <tr>
+                <th>
+                  <p>연료</p>
+                </th>
+                <td>
+                  <p><%=row.basicOp.oil_type%></p>
+                </td>
+              </tr>
+              <tr>
+                <th>
+                  <p>변속방식</p>
+                </th>
+                <td>
+                  <p><%=row.basicOp.gear_type%></p>
+                </td>
+              </tr>
+              <tr>
+                <th>
+                  <p>승차정원</p>
+                </th>
+                <td>
+                  <p><%=row.basicOp.capavity%></p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+        <section>
+          <h2>옵션정보</h2>
+          <table>
+            <tbody>
+              <tr>
+                <th>
+                  <p>안전옵션</p>
+                </th>
+                <td>
+
+                </td>
+              </tr>
+              <tr>
+                <th>
+                  <p>편의옵션</p>
+                </th>
+                <td>
+
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+        <section>
+          <h2>요금</h2>
+          <table>
+            <tbody>
+              <tr>
+                <th>
+                  <p>기본요금</p>
+                </th>
+                <td>
+                  <p><%=row.basicOp.basic_charge%></p>
+                </td>
+              </tr>
+              <tr>
+                <th>
+                  <p>주행요금</p>
+                </th>
+                <td>
+                  <p><%=row.basicOp.driving_charge%></p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+      <% } %>
+    </div>
+  </body>
+</html> -->

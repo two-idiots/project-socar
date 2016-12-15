@@ -9,6 +9,7 @@ module.exports = function() {
   app.set('view engine', 'ejs');
 
   app.use(bodyParser.urlencoded({ extended: false }));
+  app.use(bodyParser.json()); // Json 통신에 필수
   app.use(session({
     secret: 'adfq@#@egadg$%@^sfg!a@$qxc2',
     resave: false,

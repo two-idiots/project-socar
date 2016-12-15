@@ -2,12 +2,26 @@ module.exports = function(app) {
   var conn = require('../config/db')();
   var route = require('express').Router();
 
+
+/////////////////////////자동차 정보 등록/////////////////////////
   route.get('/car', function(req, res) {
     res.render('new_data/car');
   });
 
   route.post('/car', function(req, res) {
-    var car = {
+    var safetyOptionName = []; // 안전옵션
+    var convenienceOptionName = []; // 편의옵션
+
+    var safetyOptionId = []; // safety_option 테이블로부터 가져온 safety_id
+    var convenienceOptionId = []; // convenience_option 테이블로부터 가져온 safety_id
+
+    var safetyOptionData = []; // car_safety_option 테이블에 저장할 배열
+    var convenienceOptionData = []; // car_convenience_option 테이블에 저장할 배열
+
+    var firstCount = 1;
+    var secondCount = 1;
+
+    var basicCarInfo = {
       car_name: req.body.carName,
       automaker: req.body.automaker,
       car_model: req.body.carModel,
@@ -17,23 +31,120 @@ module.exports = function(app) {
       capavity: req.body.capavity,
       basic_charge: req.body.basicCharge,
       driving_charge: req.body.drivingCharge,
+      image: req.body.image,
     };
+    console.log('basicCarInfo', basicCarInfo);
 
-    var sql = 'INSERT INTO car SET?';
+    // 안전옵션 받아오기
+    for(var i in req.body.safetyName) {
+      safetyOptionName.push(req.body.safetyName[i]);
+    }
+    console.log('safetyOptionName', safetyOptionName);
 
-    conn.query(sql, car, function(err, results) {
+    // 편의옵션 받아오기
+    for(var i in req.body.convenienceName) {
+      convenienceOptionName.push(req.body.convenienceName[i]);
+    }
+    console.log('convenienceOptionName', convenienceOptionName);
+
+    var sqlCarInfo = 'INSERT INTO car SET?';
+    var sqlSafetyInfo = 'SELECT so.safety_id FROM safety_option so WHERE so.safety_name = ?';
+    var sqlConvenienceInfo = 'SELECT co.convenience_id FROM convenience_option co WHERE co.convenience_name = ?';
+    var sqlCarSafetyOption = 'INSERT INTO car_safety_option SET?';
+    var sqlCarConvenienceOption = 'INSERT INTO car_convenience_option SET?';
+    // var sqlCarConvenience = '';
+    // //var sqlSafety = 'SELECT * FROM safety_option WHERE safety_id = ?';
+    // //var sqlConvenience = 'SELECT * FROM convenience_option WHERE convenience_id = ?';
+    //
+    conn.query(sqlCarInfo, basicCarInfo, function(err, results1) {
       if(err) {
         console.log(err);
         res.status(500);
-        console.log('이미 동일한 자동차가 있습니다!');
-        res.redirect('/new_data/car');
+        console.log('에러 발생!');
+        //res.redirect('/new_data/car');
       } else {
         console.log('자동차 정보 등록 완료!');
-        res.redirect('/home');
+
+        for(var i in safetyOptionName) {
+          conn.query(sqlSafetyInfo, safetyOptionName[i], function(err, results2) {
+            if(err) {
+              console.log(err);
+              res.status(500);
+              console.log('에러 발생!');
+              //res.redirect('/new_data/car');
+            } else {
+              safetyOptionId.push(results2[0].safety_id); // 안전옵션아이디 받아오기
+
+              if(safetyOptionId.length == safetyOptionName.length) {
+                for(var j in convenienceOptionName) {
+                  conn.query(sqlConvenienceInfo, convenienceOptionName[j], function(err, results3) {
+                    if(err) {
+                      console.log(err);
+                      res.status(500);
+                      console.log('에러 발생!');
+                      //res.redirect('/new_data/car');
+                    } else {
+                      convenienceOptionId.push(results3[0].convenience_id); // 편의옵션아이디 받아오기
+
+                      // car_safety_option 테이블에 car_name과 safety_id을 저장하기 위한 데이터 구성
+                      if(convenienceOptionId.length == convenienceOptionName.length) {
+                        for(var k in safetyOptionId) {
+                          safetyOptionData.push({car_name: basicCarInfo.car_name, safety_id: safetyOptionId[k]});
+                        }
+                        console.log('safetyOptionData', safetyOptionData);
+
+                        // car_safety_option 테이블에 car_name과 safety_id을 저장
+                        for(var k in safetyOptionId) {
+                          conn.query(sqlCarSafetyOption, safetyOptionData[k], function(err, results4) {
+                            if(err) {
+                              console.log(err);
+                              res.status(500);
+                              console.log('에러 발생!');
+                              //res.redirect('/new_data/car');
+                            } else {
+                              firstCount++;
+                              // car_convenience_option 테이블에 car_name과 convenience_id을 저장하기 위한 데이터 구성
+                              if(firstCount == safetyOptionId.length) {
+                                for(var l in convenienceOptionId) {
+                                  convenienceOptionData.push({car_name: basicCarInfo.car_name, convenience_id: convenienceOptionId[l]});
+                                }
+                                console.log('convenienceOptionData', convenienceOptionData);
+
+                                // car_convenience_option 테이블에 car_name과 convenience_id을 저장
+                                for(var l in convenienceOptionId) {
+                                  conn.query(sqlCarConvenienceOption, convenienceOptionData[l], function(err, results5) {
+                                    if(err) {
+                                      console.log(err);
+                                      res.status(500);
+                                      console.log('에러 발생!');
+                                      //res.redirect('/new_data/car');
+                                    } else {
+                                      secondCount++;
+                                      if(secondCount == convenienceOptionId.length) {
+                                        console.log('자동차-편의옵션 등록 완료!');
+                                        res.redirect('/home');
+                                      }
+                                    }
+                                  });
+                                }
+                              }
+                            }
+                          });
+                        }
+                      }
+                    }
+                  });
+                }
+              }
+            }
+          });
+        }
       }
     });
   });
 
+
+/////////////////////////지역정보 등록/////////////////////////
   route.get('/area', function(req, res) {
     res.render('new_data/area');
   });
@@ -59,6 +170,59 @@ module.exports = function(app) {
       }
     });
   });
+
+
+/////////////////////////안전옵션 등록/////////////////////////
+  route.get('/safety_option', function(req, res) {
+    res.render('new_data/safety_option');
+  });
+
+  route.post('/safety_option', function(req, res) {
+    var safety_option = {
+      safety_id: req.body.safetyId,
+    };
+
+    var sql = 'INSERT INTO safety_option SET?';
+
+    conn.query(sql, safety_option, function(err, results) {
+      if(err) {
+        console.log(err);
+        res.status(500);
+        console.log('이미 동일한 아이디가 있습니다!');
+        res.redirect('/new_data/safety_option');
+      } else {
+        console.log('안전옵션 등록 완료!');
+        res.redirect('/home');
+      }
+    });
+  });
+
+
+/////////////////////////편의옵션 등록/////////////////////////
+  route.get('/convenience_option', function(req, res) {
+    res.render('new_data/convenience_option');
+  });
+
+  route.post('/convenience_option', function(req, res) {
+    var convenience_option = {
+      convenience_id: req.body.convenienceId,
+    };
+
+    var sql = 'INSERT INTO convenience_option SET?';
+
+    conn.query(sql, convenience_option, function(err, results) {
+      if(err) {
+        console.log(err);
+        res.status(500);
+        console.log('이미 동일한 아이디가 있습니다!');
+        res.redirect('/new_data/convenience_option');
+      } else {
+        console.log('편의옵션 등록 완료!');
+        res.redirect('/home');
+      }
+    });
+  });
+
 
   return route;
 }

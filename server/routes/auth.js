@@ -46,16 +46,21 @@ module.exports = function(app) {
     var sql = 'SELECT * FROM user WHERE user_id=?';
     conn.query(sql, uname, function(err, results) {
       if(err) {
+        console.log(uname);
+        console.log(pwd);
         return console.log('There is no user.');
       } else {
         var user = results[0];
         return hasher({password: pwd, salt: user.salt}, function(err, pass, salt, hash) {
           if(hash == user.password) {
             req.session.displayName = user.user_name;
-            res.redirect('/home');
+            console.log('로그인 성공!');
+            res.json('0');
+            // res.redirect('/home');
           } else {
             console.log('NO USER');
-            res.redirect('/auth/login');
+            res.json('1');
+            // res.redirect('/auth/login');
           }
         });
       }
