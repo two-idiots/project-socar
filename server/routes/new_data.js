@@ -52,16 +52,12 @@ module.exports = function(app) {
     var sqlConvenienceInfo = 'SELECT co.convenience_id FROM convenience_option co WHERE co.convenience_name = ?';
     var sqlCarSafetyOption = 'INSERT INTO car_safety_option SET?';
     var sqlCarConvenienceOption = 'INSERT INTO car_convenience_option SET?';
-    // var sqlCarConvenience = '';
-    // //var sqlSafety = 'SELECT * FROM safety_option WHERE safety_id = ?';
-    // //var sqlConvenience = 'SELECT * FROM convenience_option WHERE convenience_id = ?';
-    //
+
     conn.query(sqlCarInfo, basicCarInfo, function(err, results1) {
       if(err) {
         console.log(err);
         res.status(500);
         console.log('에러 발생!');
-        //res.redirect('/new_data/car');
       } else {
         console.log('자동차 정보 등록 완료!');
 
@@ -71,7 +67,6 @@ module.exports = function(app) {
               console.log(err);
               res.status(500);
               console.log('에러 발생!');
-              //res.redirect('/new_data/car');
             } else {
               safetyOptionId.push(results2[0].safety_id); // 안전옵션아이디 받아오기
 
@@ -82,7 +77,6 @@ module.exports = function(app) {
                       console.log(err);
                       res.status(500);
                       console.log('에러 발생!');
-                      //res.redirect('/new_data/car');
                     } else {
                       convenienceOptionId.push(results3[0].convenience_id); // 편의옵션아이디 받아오기
 
@@ -100,7 +94,6 @@ module.exports = function(app) {
                               console.log(err);
                               res.status(500);
                               console.log('에러 발생!');
-                              //res.redirect('/new_data/car');
                             } else {
                               firstCount++;
                               // car_convenience_option 테이블에 car_name과 convenience_id을 저장하기 위한 데이터 구성
@@ -117,7 +110,6 @@ module.exports = function(app) {
                                       console.log(err);
                                       res.status(500);
                                       console.log('에러 발생!');
-                                      //res.redirect('/new_data/car');
                                     } else {
                                       secondCount++;
                                       if(secondCount == convenienceOptionId.length) {
@@ -247,53 +239,51 @@ module.exports = function(app) {
         res.redirect('/new_data/socar');
       } else {
         console.log('쏘카존 차량 등록 완료!');
-        res.redirect('/home');
+        res.redirect('/new_data/socar');
       }
     });
   });
 
 
-    /////////////////////////예약정보 등록/////////////////////////
-    route.get('/rental', function(req, res) {
-      res.render('new_data/rental');
+  /////////////////////////예약정보 등록/////////////////////////
+  route.get('/rental', function(req, res) {
+    res.render('new_data/rental');
+  });
+
+  route.post('/rental', function(req, res) {
+    var rentalData = {
+      rental_date: req.body.rentalDate,
+      due_date: req.body.dueDate,
+      area_name: req.body.areaName,
+      car_name: req.body.carName,
+      user_id: req.session.displayName,
+    }
+
+    var sqlCarNum = 'SELECT car_num FROM socar_zone_car WHERE car_name = ? and area_name = ?';
+
+    conn.query(sqlCarNum, [rentalData.car_name, rentalData.area_name], function(err, results1) {
+      if(err) {
+          console.log(err);
+          res.status(500);
+          console.log('에러 발생!');
+        } else {
+          rentalData.car_num = results1[0].car_num;
+
+          var sqlInsertRentalData = 'INSERT INTO rental_info SET?';
+
+          conn.query(sqlInsertRentalData, rentalData, function(err, results2) {
+            if(err) {
+                console.log(err);
+                res.status(500);
+                console.log('에러 발생!');
+              } else {
+                console.log('예약 성공!');
+                res.redirect('/home');
+              }
+          });
+        }
     });
-
-    route.post('/rental', function(req, res) {
-      var rentalData = {
-        rental_date: req.body.rentalDate,
-        due_date: req.body.dueDate,
-        area_name: req.body.areaName,
-        car_name: req.body.carName,
-        user_id: req.session.displayName,
-      }
-
-      var sqlCarNum = 'SELECT car_num FROM socar_zone_car WHERE car_name = ? and area_name = ?';
-
-      conn.query(sqlCarNum, [rentalData.car_name, rentalData.area_name], function(err, results1) {
-        if(err) {
-            console.log(err);
-            res.status(500);
-            console.log('에러 발생!');
-            //res.redirect('/reserve/car_info');
-          } else {
-            rentalData.car_num = results1[0].car_num;
-
-            var sqlInsertRentalData = 'INSERT INTO rental_info SET?';
-
-            conn.query(sqlInsertRentalData, rentalData, function(err, results2) {
-              if(err) {
-                  console.log(err);
-                  res.status(500);
-                  console.log('에러 발생!');
-                  //res.redirect('/reserve/car_info');
-                } else {
-                  console.log('예약 성공!');
-                  res.redirect('/home');
-                }
-            });
-          }
-      });
-    });
+  });
 
 
   return route;

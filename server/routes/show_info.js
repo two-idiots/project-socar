@@ -62,6 +62,27 @@ module.exports = function(app) {
   });
 
 
+/////////////////////////지역정보 가져오기/////////////////////////
+route.get('/area_info', function(req, res) {
+  res.render('reserve/area_info');
+});
+
+route.post('/area_info', function(req, res) {
+  var sql = 'SELECT * FROM area';
+  conn.query(sql, null, function(err, results) {
+    if(err) {
+        console.log(err);
+        res.status(500);
+        console.log('에러 발생!');
+        //res.redirect('/reserve/car_info');
+      } else {
+        console.log(results);
+      }
+      res.json(results);
+  });
+});
+
+
 /////////////////////////쏘카존 자동차 가져오기/////////////////////////
   route.get('/socar_info', function(req, res) {
     res.render('reserve/socar_info');
@@ -110,6 +131,7 @@ module.exports = function(app) {
           console.log(results);
           res.redirect('/rental_info');
         }
+      res.json(results);
     });
   });
 
